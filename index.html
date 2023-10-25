@@ -1,9 +1,9 @@
 <!doctype html>
-<html class="no-js" lang="">
+<html class="no-js" lang="pl">
 
 <head>
   <meta charset="utf-8">
-  <title></title>
+  <title>Pasieka za stodola</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -18,24 +18,45 @@
 
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/style.css">
 
   <meta name="theme-color" content="#fafafa">
 </head>
 
 <body>
+  <div id="wrapper">
+    <header>
+      <h1>Pasieka za stodola</h1>
+    </header>
+    <div id="content">
+      <!-- Add your site or application content here -->
+      <p>Hello world! This is HTML5 Boilerplate.</p>
 
-  <!-- Add your site or application content here -->
-  <p>Hello world! This is HTML5 Boilerplate. XD</p>
+    </div> <!-- /content -->
+    <nav id="navMenu">
+    </nav>
+
+  </div> <!-- /wrapper -->
+  <footer>
+    Copyright Stefan Sokol
+  </footer>
   <script src="js/vendor/modernizr-3.11.2.min.js"></script>
   <script src="js/plugins.js"></script>
   <script src="js/main.js"></script>
-
-  <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+  <script src="js/navigation_menu.js"></script>
   <script>
-    window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
-    ga('create', 'UA-XXXXX-Y', 'auto'); ga('set', 'anonymizeIp', true); ga('set', 'transport', 'beacon'); ga('send', 'pageview')
+    document.addEventListener("DOMContentLoaded", function (event) {
+      console.log("DOM fully loaded and parsed");
+      createNavMenu();
+    });
   </script>
-  <script src="https://www.google-analytics.com/analytics.js" async></script>
+
+<!--  &lt;!&ndash; Google Analytics: change UA-XXXXX-Y to be your site's ID. &ndash;&gt;-->
+<!--  <script>-->
+<!--    window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;-->
+<!--    ga('create', 'UA-XXXXX-Y', 'auto'); ga('set', 'anonymizeIp', true); ga('set', 'transport', 'beacon'); ga('send', 'pageview')-->
+<!--  </script>-->
+<!--  <script src="https://www.google-analytics.com/analytics.js" async></script>-->
 </body>
 
 </html>

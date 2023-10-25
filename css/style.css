@@ -1,0 +1,44 @@
+html, body {
+  background-color: #aaa;
+  color: #000;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+nav {
+  background: #50a020;
+
+}
+
+#content {
+  min-width: 75%;
+  background: #55aa22;
+  float: right;
+  padding: 1%;
+  overflow: hidden;
+}
+
+#wrapper {
+  width: 100%;
+  overflow: hidden;
+  margin: 0 auto;
+  min-height: calc(100% - 52px);
+  padding: 1%;
+  background: #559911;
+}
+
+header {
+  height: 100px;
+  background: #808080;
+  margin: 0 0 10px 0;
+}
+
+footer {
+  height: 50px;
+  background: #000;
+  color: #fff;
+  margin: 10px auto 0;
+  padding: 5px;
+  font-size: 15px
+}
