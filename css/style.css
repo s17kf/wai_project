@@ -8,15 +8,22 @@ html, body {
 
 nav {
   background: #50a020;
+}
 
+nav ul {
+  padding-left: 20px;
+  padding-top: 5px;
+  font-size: 14px;
+  margin: 0;
 }
 
 #content {
-  min-width: 75%;
+  width: 80%;
   background: #55aa22;
   float: right;
   padding: 1%;
   overflow: hidden;
+  margin: 0 2% 1% 0;
 }
 
 #wrapper {
@@ -24,14 +31,23 @@ nav {
   overflow: hidden;
   margin: 0 auto;
   min-height: calc(100% - 52px);
-  padding: 1%;
   background: #559911;
 }
 
+header h1 {
+  color: #2b0808;
+  text-align: center;
+}
+
+#content h1 {
+  color: #c22;
+  width: 100%;
+}
+
 header {
-  height: 100px;
-  background: #808080;
-  margin: 0 0 10px 0;
+  background-image: url("/img/20230608_115329_copy2.jpg");
+  padding: 5px 0 5px 0;
+  margin: 0 2% 1% 0;
 }
 
 footer {
@@ -41,4 +57,26 @@ footer {
   margin: 10px auto 0;
   padding: 5px;
   font-size: 15px
+}
+
+th {
+  border: 2px solid;
+}
+table, td {
+  border: 1px solid;
+}
+
+.fit-space {
+  width: fit-content;
+  max-width: 100%;
+  max-height: 100%;
+
+}
+
+.flex-container {
+  display: flex;
+}
+
+.flex-element {
+  min-width: fit-content;
 }

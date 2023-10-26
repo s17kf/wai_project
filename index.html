@@ -24,32 +24,61 @@
 </head>
 
 <body>
-  <div id="wrapper">
-    <header>
-      <h1>Pasieka za stodola</h1>
-    </header>
-    <div id="content">
-      <!-- Add your site or application content here -->
-      <p>Hello world! This is HTML5 Boilerplate.</p>
+<div id="wrapper">
+  <header>
+    <h1>Pasieka za stodołą</h1>
+  </header>
+  <div id="content">
+    <!-- Add your site or application content here -->
+    <h1>Wstęp</h1>
+    <p>Strona stworzona z pasji do pszczelarstwa, opisuje niektóre aspekty pracy przy pozyskiwaniu miodu, wybrane typy
+      rodzaje miodu budowę ula. Można też złożyć zamóweinie wypełniając dostępny na stronie formularz.</p>
+    <div class="flex-container">
+      <div class="flex-element">
+        <h1>Cennik miodu</h1>
+        <table>
+          <tr>
+            <th rowspan="2">Rodzaj</th>
+            <th colspan="2">Cena</th>
+          </tr>
+          <tr>
+            <th>0,4l</th>
+            <th>1l</th>
+          </tr>
+          <tr>
+            <td>Faceliowo lipowy</td>
+            <td>30zł</td>
+            <td>50zł</td>
+          </tr>
+          <tr>
+            <td>Nektarowo spadziowy</td>
+            <td>32zł</td>
+            <td>55zł</td>
+          </tr>
+        </table>
+      </div>
+      <div class="right" >
+        <img class="fit-space" src="img/image000000.jpg" alt="Słoiki z miodem">
+      </div>
+    </div>
+  </div> <!-- /content -->
+  <nav id="navMenu">
+  </nav>
 
-    </div> <!-- /content -->
-    <nav id="navMenu">
-    </nav>
-
-  </div> <!-- /wrapper -->
-  <footer>
-    Copyright Stefan Sokol
-  </footer>
-  <script src="js/vendor/modernizr-3.11.2.min.js"></script>
-  <script src="js/plugins.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/navigation_menu.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function (event) {
-      console.log("DOM fully loaded and parsed");
-      createNavMenu();
-    });
-  </script>
+</div> <!-- /wrapper -->
+<footer>
+  Copyright Stefan Sokol
+</footer>
+<script src="js/vendor/modernizr-3.11.2.min.js"></script>
+<script src="js/plugins.js"></script>
+<script src="js/main.js"></script>
+<script src="js/navigation_menu.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function (event) {
+    console.log("DOM fully loaded and parsed");
+    createNavMenu();
+  });
+</script>
 
 <!--  &lt;!&ndash; Google Analytics: change UA-XXXXX-Y to be your site's ID. &ndash;&gt;-->
 <!--  <script>-->
