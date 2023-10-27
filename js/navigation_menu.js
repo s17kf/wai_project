@@ -26,12 +26,16 @@ function appendChildAsListElement(parent, element) {
 const MENU_ENTRIES = `
   [
     {
-      "name": "Main page kurwa",
+      "name": "Strona główna",
       "href": "index.html"
     },
     {
-      "name": "Second kurwa page!",
-      "href": "dupa.html"
+      "name": "Miody - miodziki!",
+      "href": "miody.html"
+    },
+    {
+      "name": "Zamówienie",
+      "href": "order.html"
     }
   ]
 `
