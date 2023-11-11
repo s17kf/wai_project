@@ -43,10 +43,14 @@ header h1 {
 #content h1 {
   color: #c22;
   width: 100%;
+  margin-bottom: 2px;
+}
+
+#content h1 + p {
+  margin-top: 0;
 }
 
 header {
-  background-image: url("/img/20230608_115329_copy2.jpg");
   padding: 5px 0 5px 0;
   margin: 0 2% 1% 0;
 }
@@ -63,7 +67,11 @@ footer {
 th {
   border: 2px solid;
 }
-table, td {
+table.bordered {
+  border: 1px solid;
+}
+
+table.bordered td {
   border: 1px solid;
 }
 
