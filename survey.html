@@ -2,61 +2,87 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <title>Zamówienie = pasieka za stodołą</title>
+  <title>Gry planszowe i karciane</title>
 
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <div id="wrapper">
   <header>
-    <h1>Pasieka za stodołą</h1>
+    <h1>Gry planszowe i karciane</h1>
   </header>
   <div id="content">
-    <form action="">
-      
-      <div>
-        <label for="userName">Nazwa użytkownika:</label>
-        <input type="text" name="userName" id="userName">
-      </div>
-      <div>
-        <label for="gameName">Nazwa gry:</label>
-        <input type="text" name="gameName" id="gameName">
-      </div>
-      <div>
-        <label for="gameDescription">Opis gry:</label>
-        <textarea name="address" id="gameDescription" cols="30" rows="3"></textarea>
-      </div>
-      <div>
-        <label for="gameType">Typ gry</label>
-        <select name="honeyType" id="gameType">
-          <option value="0">Wybierz rodzaj gry</option>
-          <option value="board">planszowa</option>
-          <option value="card">karciana</option>
-        </select>
-      </div>
-      <div>
-        Odpowiednia dla dzieci:
-        <table style="display: inline-table">
-          <tr>
-            <td>
-              <label for="kids-yes">tak</label>
-              <input type="radio" name="size" id="kids-yes" value="tak">
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label for="kids-no">nie</label>
-              <input type="radio" name="size" id="kids-no" value="no">
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div>
-        <input type="checkbox" name="extension" id="extebsions" required> Dostępne dodatki do gry.
-      </div>
-      <div>
-        <input type="checkbox" name="polish" id="polish"> Gra dostępna w języku polskim.
-      </div>
+    <form action="odbierz.php" method="post">
+      <table>
+        <tr>
+          <td>
+            <label for="userName">Nazwa użytkownika:</label>
+          </td>
+          <td>
+            <input type="text" name="userName" id="userName">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="gameName">Nazwa gry:</label>
+          </td>
+          <td>
+            <input type="text" name="gameName" id="gameName">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="gameDescription">Opis gry:</label>
+          </td>
+          <td>
+            <textarea name="gameDescription" id="gameDescription" cols="30" rows="3"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="gameType">Typ gry</label>
+          </td>
+          <td>
+            <select name="gameType" id="gameType">
+              <option value="0">Wybierz rodzaj gry</option>
+              <option value="board">planszowa</option>
+              <option value="card">karciana</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Odpowiednia dla dzieci:
+          </td>
+          <td>
+            <label for="kids-yes">tak</label>
+            <input type="radio" name="size" id="kids-yes" value="tak">
+            <br>
+            <label for="kids-no">nie</label>
+            <input type="radio" name="size" id="kids-no" value="no">
+          </td>
+        </tr>
+        <tr>
+          <td rowspan="3">
+          </td>
+          <td>
+            <input type="checkbox" name="extensions" id="extensions">
+            <label for="extensions">Dostępne dodatki do gry.</label>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="checkbox" name="polish" id="polish">
+            <label for="polish">Gra dostępna w języku polskim.</label>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="submit" id="submit" value="Wyślij">
+            <input type="reset" id="reset" value="Wyczyść">
+          </td>
+        </tr>
+      </table>
     </form>
   </div> <!-- /content -->
   <nav>
