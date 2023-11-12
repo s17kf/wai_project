@@ -7,7 +7,23 @@ html, body {
 }
 
 nav {
-  background: #50a020;
+  background: #171a17;
+  color: #b3d4fc;
+}
+
+nav a {
+  color: #a1afc0;
+  text-decoration: none;
+}
+
+/*form {*/
+/*  background-color: #171a17;*/
+/*}*/
+
+input, textarea, select {
+  background-color: #293124;
+  border-color: #171a17;
+  color: white;
 }
 
 nav ul {
@@ -19,11 +35,12 @@ nav ul {
 
 #content {
   width: 80%;
-  background: #55aa22;
+  background: #293124;
   float: right;
   padding: 1%;
   overflow: hidden;
   margin: 0 2% 1% 0;
+  color: #a1afc0;
 }
 
 #wrapper {
@@ -32,27 +49,28 @@ nav ul {
   margin: 0 auto;
   min-height: calc(100% - 52px);
   padding: 1%;
-  background: #559911;
+  background: #171a17;
+}
+
+header {
+  padding: 5px 0 5px 0;
+  margin: 0 2% 1% 0;
+  background-color: #293124;
 }
 
 header h1 {
-  color: #2b0808;
+  color: #b3d4fc;
   text-align: center;
 }
 
 #content h1 {
-  color: #c22;
+  color: #a1afc0;
   width: 100%;
   margin-bottom: 2px;
 }
 
 #content h1 + p {
   margin-top: 0;
-}
-
-header {
-  padding: 5px 0 5px 0;
-  margin: 0 2% 1% 0;
 }
 
 footer {
