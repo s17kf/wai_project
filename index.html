@@ -56,15 +56,16 @@
       </svg>
     </div>
   </div> <!-- /content -->
-  <nav id="navMenu">
+  <nav id="navMenu" class="nav-bar-fixed-top">
     <ul>
       <li><a href="index.html">Strona główna</a></li>
       <li>
         <a href="games.html">Gry</a>
-        <ul>
+        <ul class="foldable">
           <li><a href="games.html#catan">Catan</a></li>
           <li><a href="games.html#cytadela">Cytadela</a></li>
           <li><a href="games.html#mars-terraformation">Terraformacja Marsa</a></li>
+          <li><a href="games.html#unicorns">Odjechane jednorożce</a></li>
         </ul>
       </li>
       <li><a href="survey.html">Ankieta</a></li>
@@ -72,9 +73,40 @@
   </nav>
 
 </div> <!-- /wrapper -->
-<footer>
-  Copyright Stefan Sokol
+<footer id="foot">
+  <div id="date"></div>
 </footer>
+
+
+
+<!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>-->
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="js/navigation_dynamic.js" ></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function (ev) {
+    console.log("DOM fully loaded and parsed");
+    addMouseHoverEffect();
+    // hideElementOfClass("navMenu", "foldable");
+  })
+</script>
+
+<script>
+  $(function () {
+    $("#gamesList").show();
+    $("#tabs").tabs();
+  })
+</script>
+
+<script type="text/javascript">
+  let dt = new Date();
+  let time = ('0' + dt.getDate()).slice(-2) + "." +
+    ('0' + (dt.getMonth() + 1)).slice(-2) + "." +
+    dt.getFullYear() + " " +
+    ('0' + dt.getHours()).slice(-2) + ":" +
+    ('0' + dt.getMinutes()).slice(-2) + ":" +
+    ('0' + dt.getSeconds()).slice(-2);
+  $('#date').text(time)
+</script>
 
 </body>
 

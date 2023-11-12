@@ -15,39 +15,39 @@ function showAndSetupButtons() {
 
   playersButton.addEventListener("click", () => {
     if (playersButton.textContent === "Pokaż graczy")
-      showPlayers(playersButton, PLAYERS_CLASS, PLAYERS, s => "L. graczy: " + s);
+      showInfo(playersButton, PLAYERS_CLASS, PLAYERS, s => "L. graczy: " + s);
     else
-      hidePlayers(playersButton, PLAYERS_CLASS);
+      hideInfo(playersButton, PLAYERS_CLASS);
   });
   ageButton.addEventListener("click", () => {
     if (ageButton.textContent === "Pokaż wiek")
-      showPlayers(ageButton, AGE_CLASS, AGES, s => "Wiek graczy: " + s);
+      showInfo(ageButton, AGE_CLASS, AGES, s => "Wiek graczy: " + s);
     else
-      hidePlayers(ageButton, AGE_CLASS);
+      hideInfo(ageButton, AGE_CLASS);
   });
   timeButton.addEventListener("click", () => {
     if (timeButton.textContent === "Pokaż czas gry")
-      showPlayers(timeButton, TIME_CLASS, TIMES, s => "Czas gry: " + s);
+      showInfo(timeButton, TIME_CLASS, TIMES, s => "Czas gry: " + s);
     else
-      hidePlayers(timeButton, TIME_CLASS);
+      hideInfo(timeButton, TIME_CLASS);
   });
 }
 
 
-function showPlayers(button, pClass, dict, decorator) {
+function showInfo(button, pClass, dict, decorator) {
   for (let game in dict) {
     let players = dict[game];
     console.log(game + " => " + players);
     let div = document.getElementById(game);
-    let p = document.createElement("p");
-    p.className = pClass;
-    p.textContent = decorator(players);
-    div.insertBefore(p, div.childNodes[2]);
+    let parent = document.createElement("p");
+    parent.className = pClass;
+    parent.textContent = decorator(players);
+    div.insertBefore(parent, div.childNodes[2]);
   }
   button.textContent = button.textContent.replace("Pokaż", "Ukryj");
 }
 
-function hidePlayers(button, pClass) {
+function hideInfo(button, pClass) {
   let playersInfos = document.getElementsByClassName(pClass);
   while (playersInfos[0]) {
     let playersInfo = playersInfos[0];

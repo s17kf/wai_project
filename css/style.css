@@ -9,6 +9,8 @@ html, body {
 nav {
   background: #171a17;
   color: #b3d4fc;
+  /*position: fixed;*/
+  /*top: 0px;*/
 }
 
 nav a {
