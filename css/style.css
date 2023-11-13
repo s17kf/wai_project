@@ -18,6 +18,10 @@ nav a {
   text-decoration: none;
 }
 
+a {
+  color: #a1afc0;
+}
+
 /*form {*/
 /*  background-color: #171a17;*/
 /*}*/

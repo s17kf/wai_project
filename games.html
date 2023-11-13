@@ -144,7 +144,7 @@
       </div>
     </div>
   </div> <!-- /content -->
-  <nav id="navMenu" class="nav-bar-fixed-top">
+  <nav id="navMenu">
     <ul>
       <li><a href="index.html">Strona główna</a></li>
       <li>
@@ -164,17 +164,13 @@
   <div id="date"></div>
 </footer>
 
-
-
-<!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>-->
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js" ></script>
-<script src="js/navigation_dynamic.js" ></script>
-<script src="js/additionalInfoButtons.js" ></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script src="js/navigation_dynamic.js"></script>
+<script src="js/additionalInfoButtons.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", function (ev) {
     console.log("DOM fully loaded and parsed");
-    // addMouseHoverEffect();
     hideElementOfClass("navMenu", "foldable");
     showAndSetupButtons();
   })
