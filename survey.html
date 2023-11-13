@@ -14,7 +14,7 @@
   </header>
   <div id="content">
     <form action="odbierz.php" method="post">
-      <table>
+      <table class="survey_table">
         <tr>
           <td>
             <label for="userName">Nazwa użytkownika:</label>
@@ -49,7 +49,7 @@
               <option value="board">planszowa</option>
               <option value="card">karciana</option>
             </select>
-            <a id="whatType" href="#">Jaki rodzaj wybrać?</a>
+            <a id="whatType" href="#" style="display: none">Jaki rodzaj wybrać?</a>
             <div id="dialog" title="jaki rodzaj gry wybrać" style="display: none">
               <p>Jeżeli w grze możliwe jest wykonanie akcji bez użycia karty wybierz gra planszowa.</p>
             </div>
@@ -124,6 +124,7 @@
 
 
 <script>
+  $("#whatType").show();
   $("#whatType").click(
     (function () {
       $("#dialog").dialog();
@@ -131,7 +132,7 @@
   );
 </script>
 
-<script type="text/javascript">
+<script>
   let dt = new Date();
   let time = ('0' + dt.getDate()).slice(-2) + "." +
     ('0' + (dt.getMonth() + 1)).slice(-2) + "." +
