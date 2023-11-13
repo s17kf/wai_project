@@ -1,62 +1,90 @@
 
-const PLAYERS_CLASS = "playersInfoJs";
-const AGE_CLASS = "ageInfoJs";
-const TIME_CLASS = "timeIndoJs";
+class ButtonData {
+  constructor(id, relatedClass, data, prefix) {
+    this._id = id;
+    this.buttonElement = document.getElementById(id);
+    this.relatedClass = relatedClass;
+    this.data = data;
+    this.decorator = s => prefix + s;
+    this.active = false;
+  }
+}
 
 function showAndSetupButtons() {
+  let playersButton =
+    new ButtonData("playersButton", "playersInfoJs", PLAYERS, "L. graczy: ");
+  let ageButton =
+    new ButtonData("ageButton", "ageInfoJs", AGES, "Wiek graczy: ");
+  let timeButton =
+    new ButtonData("timeButton", "timeInfoJs", TIMES, "Czas gry: ");
 
-  let playersButton = document.getElementById("playersButton");
-  let ageButton = document.getElementById("ageButton");
-  let timeButton = document.getElementById("timeButton");
+  let buttons = [playersButton, ageButton, timeButton];
+  if (window.localStorage) {
+    console.log("local storage supported");
+    console.log("localStorage.length: " + localStorage.length);
+    for (let i = 0; i < localStorage.length; ++i) {
+      let key = localStorage.key(i);
+      console.log(key + ": " + localStorage.getItem(key));
+    }
+    console.log("dupa: " + localStorage.getItem("dupa"));
+    buttons.reverse().forEach(button => {
+      const show = localStorage.getItem(button._id);
+      if (!show) {
+        console.log(button._id + " does not have stored value");
+        return;
+      }
+      console.log("Stored for " + button._id + ": " + show);
+      if (show === "true") {
+        console.log("Show " + button.relatedClass);
+        showInfo(button);
+      }
+    });
+  }
 
-  playersButton.style.display = "inline";
-  ageButton.style.display = "inline";
-  timeButton.style.display = "inline";
-
-  playersButton.addEventListener("click", () => {
-    if (playersButton.textContent === "Pokaż graczy")
-      showInfo(playersButton, PLAYERS_CLASS, PLAYERS, s => "L. graczy: " + s);
-    else
-      hideInfo(playersButton, PLAYERS_CLASS);
-  });
-  ageButton.addEventListener("click", () => {
-    if (ageButton.textContent === "Pokaż wiek")
-      showInfo(ageButton, AGE_CLASS, AGES, s => "Wiek graczy: " + s);
-    else
-      hideInfo(ageButton, AGE_CLASS);
-  });
-  timeButton.addEventListener("click", () => {
-    if (timeButton.textContent === "Pokaż czas gry")
-      showInfo(timeButton, TIME_CLASS, TIMES, s => "Czas gry: " + s);
-    else
-      hideInfo(timeButton, TIME_CLASS);
+  buttons.forEach(button => {
+    button.buttonElement.style.display = "inline";
+    button.buttonElement.addEventListener("click", () => {
+      if (button.active)
+        hideInfo(button);
+      else
+        showInfo(button);
+    });
   });
 }
 
+function storeValue(key, value) {
+  if (!window.localStorage) {
+    return;
+  }
+  localStorage.setItem(key, value);
+}
 
-function showInfo(button, pClass, dict, decorator) {
+function showInfo(button) {
+  const dict = button.data;
   for (let game in dict) {
     let players = dict[game];
-    console.log(game + " => " + players);
     let div = document.getElementById(game);
     let parent = document.createElement("p");
-    parent.className = pClass;
-    parent.textContent = decorator(players);
+    parent.className = button.relatedClass;
+    parent.textContent = button.decorator(players);
     div.insertBefore(parent, div.childNodes[2]);
   }
-  button.textContent = button.textContent.replace("Pokaż", "Ukryj");
+  button.buttonElement.textContent = button.buttonElement.textContent.replace("Pokaż", "Ukryj");
+  storeValue(button._id, true);
+  button.active = true;
 }
 
-function hideInfo(button, pClass) {
-  let playersInfos = document.getElementsByClassName(pClass);
+function hideInfo(button) {
+  let playersInfos = document.getElementsByClassName(button.relatedClass);
   while (playersInfos[0]) {
     let playersInfo = playersInfos[0];
     let parent = playersInfo.parentElement;
     parent.removeChild(playersInfo);
     console.log("removed players for " + parent.id);
   }
-  let playersButton = document.getElementById("playersButton");
-  button.textContent = button.textContent.replace("Ukryj", "Pokaż");
+  button.buttonElement.textContent = button.buttonElement.textContent.replace("Ukryj", "Pokaż");
+  storeValue(button._id, false);
+  button.active = false;
 }
 
 const PLAYERS = {
