@@ -99,6 +99,7 @@ footer {
 th {
   border: 2px solid;
 }
+
 table.bordered {
   border: 1px solid;
 }
@@ -106,6 +107,11 @@ table.bordered {
 table.bordered td {
   border: 1px solid;
 }
+
+td + td {
+  text-align: center;
+}
+
 
 .fit-space {
   width: fit-content;
