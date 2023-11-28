@@ -26,7 +26,6 @@ function showAndSetupButtons() {
       let key = localStorage.key(i);
       console.log(key + ": " + localStorage.getItem(key));
     }
-    console.log("dupa: " + localStorage.getItem("dupa"));
     buttons.reverse().forEach(button => {
       const show = localStorage.getItem(button._id);
       if (!show) {
