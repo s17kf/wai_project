@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Gry planszowe i karciane</title>
 
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -49,10 +48,6 @@
               <option value="board">planszowa</option>
               <option value="card">karciana</option>
             </select>
-            <a id="whatType" href="#" style="display: none">Jaki rodzaj wybrać?</a>
-            <div id="dialog" title="jaki rodzaj gry wybrać" style="display: none">
-              <p>Jeżeli w grze możliwe jest wykonanie akcji bez użycia karty wybierz gra planszowa.</p>
-            </div>
           </td>
         </tr>
         <tr>
@@ -113,23 +108,12 @@
 </footer>
 
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script src="js/navigation_dynamic.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", function (ev) {
     console.log("DOM fully loaded and parsed");
     addMouseHoverEffect();
   })
-</script>
-
-
-<script>
-  $("#whatType").show();
-  $("#whatType").click(
-    (function () {
-      $("#dialog").dialog();
-    })
-  );
 </script>
 
 <script>
