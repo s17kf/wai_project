@@ -64,6 +64,10 @@ img.small {
   float: right;
 }
 
+.game_description > h1 + p::first-letter {
+  font-weight: bold;
+}
+
 header {
   padding: 5px 0 5px 0;
   margin: 0 2% 1% 0;
@@ -121,27 +125,98 @@ td + td {
   align-items: center;
 }
 
-.grid-item {
+.grid-item img:hover {
   /*align-content: center;*/
   /*place-content: center;*/
+  animation-name: almost_selected;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+}
+
+.grid-item img:target {
+  animation-name: rotate;
+  animation-duration: 0.01s;
+}
+
+.maximized {
+  position: relative;
+  display: none;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 70vw;
+  max-height: 70vh;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+@keyframes almost_selected {
+  from {
+    transform: scale(1, 1);
+  }
+  50% {
+    opacity: 0.5;
+  }
+  to {
+    transform: scale(1.07, 1.07);
+    opacity: 1;
+  }
 }
 
 img.gallery-item {
   max-width: 100%;
 }
 
+.text-center {
+  text-align: center;
+}
+
+#back_to_gallery_button {
+  display: none;
+  text-align: center;
+}
+
 @media (max-width: 1200px) {
-  .grid-container {grid-template-columns: auto auto auto auto}
+  .grid-container {
+    grid-template-columns: auto auto auto auto
+  }
 }
 
 @media (max-width: 900px) {
-  .grid-container {grid-template-columns: auto auto auto}
+  .grid-container {
+    grid-template-columns: auto auto auto
+  }
 }
 
 @media only screen and (max-width: 600px) {
-  nav {width:88%; position:absolute; height:30px;}
-  nav ul li {display: inline; }
-  nav ul li::after {content: " |";}
-  #content {width: 98%;position:relative; top: 30px;margin-top:5%;}
-  .grid-container {grid-template-columns: auto}
+  nav {
+    width: 88%;
+    position: absolute;
+  }
+
+  nav ul::before {
+    content: "|"
+  }
+
+  nav ul li {
+    display: inline;
+  }
+
+  nav ul li::after {
+    content: " |";
+  }
+
+  nav ul li ul {
+    display: none
+  }
+
+  #content {
+    width: 98%;
+    position: relative;
+    top: 15px;
+    margin-top: 5%;
+  }
+
+  .grid-container {
+    grid-template-columns: auto
+  }
 }

@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Galeria</title>
+  <title>Gry planszowe i karciane</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/style.css">
@@ -12,32 +12,49 @@
 <body>
 <div id="wrapper">
   <header>
-    <h1>Gry planszowe i karciane</h1>
+    <h1>Galeria</h1>
   </header>
   <div id="content">
-    <div class="grid-container">
-      <div class="grid-item">
+    <div class="text-center">
+      <button id="back_to_gallery_button">Powrót do galerii</button>
+    </div>
+    <img class="maximized" src="img/catan.png" alt="Zdjęcie gra Catan" id="catan_full_img"
+         onclick="cloaseMaximized(this)">
+    <img class="maximized" src="img/catan-inside01.png" alt="Zdjęcie gra Catan w środku" id="catan_inside_full_image"
+         onclick="cloaseMaximized(this)">
+    <img class="maximized" src=img/cytadela.jpg alt="Zdjęcie gra Cytadela" id="cytadela_full_img"
+         onclick="cloaseMaximized(this)">
+    <img class="maximized" src=img/cytadela_cards_coins_crown.png alt="Zdjęcie gra Cytadela - karty i monety"
+         id="cytadela_cards_coins_crown_full_img" onclick="cloaseMaximized(this)">
+    <img class="maximized" src=img/cytadela_characters_cards.png alt="Zdjęcie gra Cytadela - karty postaci"
+         id="cytadela_characters_cards_full_img" onclick="cloaseMaximized(this)">
+    <img class="maximized" src=img/terraformacja_marsa.jpg alt="Zdjęcie gra Terraformacja Marsa"
+         id="terraformacja_marsa_full_img" onclick="cloaseMaximized(this)">
+    <img class="maximized" src=img/odjechane_jednorozce.jpg alt="Zdjęcie gra Odjechane jednorożce"
+         id="odjechane_jednorozce_full_img" onclick="cloaseMaximized(this)">
+
+    <div class="grid-container" id="gallery_grid">
+      <div class="grid-item" onclick="maximizeImage('catan_full_img')">
         <img src="img/catan.png" class="gallery-item" alt="Zdjęcie gra Catan">
       </div>
-      <div>
+      <div class="grid-item" onclick="maximizeImage('catan_inside_full_image')">
         <img src="img/catan-inside01.png" class="gallery-item" alt="Zdjęcie gra Catan w środku">
       </div>
-      <div class="grid-item">
+      <div class="grid-item" onclick="maximizeImage('cytadela_full_img')">
         <img src="img/cytadela.jpg" class="gallery-item" alt="Zdjęcie gra Cytadela">
       </div>
-      <div>
+      <div class="grid-item" onclick="maximizeImage('cytadela_cards_coins_crown_full_img')">
+        <img src="img/cytadela_cards_coins_crown.png" class="gallery-item" alt="Zdjęcie gra Cytadela - karty i monety">
+      </div>
+      <div class="grid-item" onclick="maximizeImage('cytadela_characters_cards_full_img')">
+        <img src="img/cytadela_characters_cards.png" class="gallery-item" alt="Zdjęcie gra Cytadela - karty postaci">
+      </div>
+      <div class="grid-item" onclick="maximizeImage('terraformacja_marsa_full_img')">
         <img src="img/terraformacja_marsa.jpg" class="gallery-item" alt="Zdjęcie gra Terraformacja Marsa">
       </div>
-      <div class="grid-item">
+      <div class="grid-item" onclick="maximizeImage('odjechane_jednorozce_full_img')">
         <img src="img/odjechane_jednorozce.jpg" class="gallery-item" alt="Zdjęcie gra Odjechane jednorożce">
       </div>
-      <div class="grid-item">3</div>
-      <div class="grid-item">4</div>
-      <div class="grid-item">5</div>
-      <div class="grid-item">6</div>
-      <div class="grid-item">7</div>
-      <div class="grid-item">8</div>
-      <div class="grid-item">9</div>
     </div>
   </div> <!-- /content -->
   <nav id="navMenu">
@@ -67,6 +84,29 @@
   document.addEventListener("DOMContentLoaded", function (ev) {
     console.log("DOM fully loaded and parsed");
   })
+</script>
+
+<script>
+  function maximizeImage(id) {
+    if (outerWidth <= 600) {
+      return;
+    }
+    console.log("maximize: " + id);
+    let maximizedImage = document.getElementById(id);
+    maximizedImage.style.display = 'block';
+    document.getElementById("gallery_grid").style.display = 'none';
+    let backToGalleryButton = document.getElementById("back_to_gallery_button");
+    backToGalleryButton.style.display = 'inline-block';
+    backToGalleryButton.onclick = function () {
+      cloaseMaximized(maximizedImage)
+    }
+  }
+
+  function cloaseMaximized(image) {
+    image.style.display = 'none';
+    document.getElementById('gallery_grid').style.display = 'inline-grid';
+    document.getElementById("back_to_gallery_button").style.display = 'none';
+  }
 </script>
 
 <script>
