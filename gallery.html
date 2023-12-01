@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Gry planszowe i karciane</title>
+  <title>Galeria</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/style.css">
@@ -15,51 +15,34 @@
     <h1>Gry planszowe i karciane</h1>
   </header>
   <div id="content">
-    <h1>Wstęp</h1>
-    <p>
-      Strona prezentuje wybrane gry planszowe i karciane.
-      Do każdej gry dołączony jest krótki opis, podstawowe informacje
-      (np.: liczba graczy, ich wiek, szacowany czas rozgrywki)
-      oraz link do oferty na zakup danej gry.
-    <div>
-      <h1>Spis gier</h1>
-      <table class="bordered">
-        <tr>
-          <th>Nazwa</th>
-          <th>Wiek</th>
-          <th>L. graczy</th>
-          <th>Czas (min)</th>
-        </tr>
-        <tr>
-          <td>Catan</td>
-          <td>10+</td>
-          <td>3-4</td>
-          <td>75</td>
-        </tr>
-        <tr>
-          <td>Cytadela</td>
-          <td>10+</td>
-          <td>2-8</td>
-          <td>30-60</td>
-        </tr>
-        <tr>
-          <td>Terraformacja Marsa</td>
-          <td>12+</td>
-          <td>1-5</td>
-          <td>90-120</td>
-        </tr>
-        <tr>
-          <td>Odjechane jednorożce</td>
-          <td>10+</td>
-          <td>2-8</td>
-          <td>30-60</td>
-        </tr>
-      </table>
+    <div class="grid-container">
+      <div class="grid-item">
+        <img src="img/catan.png" class="gallery-item" alt="Zdjęcie gra Catan">
+      </div>
+      <div>
+        <img src="img/catan-inside01.png" class="gallery-item" alt="Zdjęcie gra Catan w środku">
+      </div>
+      <div class="grid-item">
+        <img src="img/cytadela.jpg" class="gallery-item" alt="Zdjęcie gra Cytadela">
+      </div>
+      <div>
+        <img src="img/terraformacja_marsa.jpg" class="gallery-item" alt="Zdjęcie gra Terraformacja Marsa">
+      </div>
+      <div class="grid-item">
+        <img src="img/odjechane_jednorozce.jpg" class="gallery-item" alt="Zdjęcie gra Odjechane jednorożce">
+      </div>
+      <div class="grid-item">3</div>
+      <div class="grid-item">4</div>
+      <div class="grid-item">5</div>
+      <div class="grid-item">6</div>
+      <div class="grid-item">7</div>
+      <div class="grid-item">8</div>
+      <div class="grid-item">9</div>
     </div>
   </div> <!-- /content -->
   <nav id="navMenu">
     <ul>
-      <li><a href="index.html" class="active">Strona główna</a></li>
+      <li><a href="index.html">Strona główna</a></li>
       <li>
         <a href="games.html">Gry</a>
         <ul class="foldable">
@@ -70,7 +53,7 @@
         </ul>
       </li>
       <li><a href="survey.html">Ankieta</a></li>
-      <li><a href="gallery.html">Galeria</a></li>
+      <li><a href="gallery.html" class="active">Galeria</a></li>
     </ul>
   </nav>
 

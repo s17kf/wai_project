@@ -9,10 +9,17 @@ html, body {
 nav {
   background: #171a17;
   color: #b3d4fc;
+  width: 15%;
+  word-wrap: break-word;
 }
 
 nav a {
   text-decoration: none;
+}
+
+.active {
+  color: #b3d4fc;
+  font-weight: bold;
 }
 
 a {
@@ -105,4 +112,36 @@ td + td {
 
 .survey_table td {
   text-align: left;
+}
+
+.grid-container {
+  display: inline-grid;
+  grid-template-columns: auto auto auto auto auto;
+  column-gap: 10px;
+  align-items: center;
+}
+
+.grid-item {
+  /*align-content: center;*/
+  /*place-content: center;*/
+}
+
+img.gallery-item {
+  max-width: 100%;
+}
+
+@media (max-width: 1200px) {
+  .grid-container {grid-template-columns: auto auto auto auto}
+}
+
+@media (max-width: 900px) {
+  .grid-container {grid-template-columns: auto auto auto}
+}
+
+@media only screen and (max-width: 600px) {
+  nav {width:88%; position:absolute; height:30px;}
+  nav ul li {display: inline; }
+  nav ul li::after {content: " |";}
+  #content {width: 98%;position:relative; top: 30px;margin-top:5%;}
+  .grid-container {grid-template-columns: auto}
 }
