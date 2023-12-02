@@ -60,9 +60,15 @@ nav ul {
 
 img.small {
   max-width: 20vw;
-  max-height: 250px;
-  float: right;
 }
+
+.game-list-grid-container {
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  column-gap: 10px;
+  row-gap: 10px;
+}
+
 
 .game_description > h1 + p::first-letter {
   font-weight: bold;
@@ -192,6 +198,7 @@ img.gallery-item {
   nav {
     width: 88%;
     position: absolute;
+    text-align: center;
   }
 
   nav ul::before {
@@ -218,6 +225,17 @@ img.gallery-item {
   }
 
   .gallery-grid-container {
-    grid-template-columns: auto
+    grid-template-columns: auto;
   }
+
+  img.small {
+    display: none;
+  }
+
+  .game-list-grid-container {
+    display: inline-grid;
+    grid-template-columns: auto;
+    column-gap: 10px;
+  }
+
 }
