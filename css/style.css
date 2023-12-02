@@ -122,14 +122,14 @@ td + td {
   text-align: left;
 }
 
-.grid-container {
+.gallery-grid-container {
   display: inline-grid;
   grid-template-columns: auto auto auto auto auto;
   column-gap: 10px;
   align-items: center;
 }
 
-.grid-item img:hover {
+.gallery-grid-item img:hover {
   animation-name: almost_selected;
   animation-duration: 0.3s;
   animation-fill-mode: forwards;
@@ -177,13 +177,13 @@ img.gallery-item {
 }
 
 @media (max-width: 1200px) {
-  .grid-container {
+  .gallery-grid-container {
     grid-template-columns: auto auto auto auto
   }
 }
 
 @media (max-width: 900px) {
-  .grid-container {
+  .gallery-grid-container {
     grid-template-columns: auto auto auto
   }
 }
@@ -217,7 +217,7 @@ img.gallery-item {
     margin-top: 5%;
   }
 
-  .grid-container {
+  .gallery-grid-container {
     grid-template-columns: auto
   }
 }
