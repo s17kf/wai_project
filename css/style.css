@@ -74,6 +74,10 @@ header {
   background-color: #293124;
 }
 
+#content a:visited {
+  color: #686868;
+}
+
 header h1 {
   color: #b3d4fc;
   text-align: center;
@@ -126,16 +130,9 @@ td + td {
 }
 
 .grid-item img:hover {
-  /*align-content: center;*/
-  /*place-content: center;*/
   animation-name: almost_selected;
   animation-duration: 0.3s;
   animation-fill-mode: forwards;
-}
-
-.grid-item img:target {
-  animation-name: rotate;
-  animation-duration: 0.01s;
 }
 
 .maximized {
