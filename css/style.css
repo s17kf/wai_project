@@ -175,6 +175,10 @@ img.gallery-item {
   text-align: center;
 }
 
+#svg-dice {
+  float: right;
+}
+
 @media (max-width: 1200px) {
   .grid-container {
     grid-template-columns: auto auto auto auto
