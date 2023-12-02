@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified"
+           elementFormDefault="qualified">
+
+  <xs:element name="games" type="gamesType"/>
+
+  <xs:complexType name="gamesType">
+    <xs:sequence>
+      <xs:element name="author">
+        <xs:complexType>
+          <xs:all>
+            <xs:element name="name" type="nameType"/>
+            <xs:element name="second_name" type="nameType" minOccurs="0"/>
+            <xs:element name="surname">
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:maxLength value="50"/>
+                  <xs:pattern value="[A-Z][a-z]+([\- ][A-Z][a-z]+)?"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:element>
+          </xs:all>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="game" type="gameType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="nameType">
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="20"/>
+      <xs:pattern value="[A-Z][a-z]+"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="gameType">
+    <xs:sequence>
+      <xs:group ref="basicGameInfo"/>
+      <xs:element name="type">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="planszowa"/>
+            <xs:enumeration value="karciana"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element ref="link"/>
+      <xs:element name="extensions" type="extensionsType" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="extensionsAvailable" type="yesNoType" use="required"/>
+    <xs:attribute ref="complexityScale"/>
+  </xs:complexType>
+
+  <xs:complexType name="extensionsType">
+    <xs:sequence>
+      <xs:element name="extension" type="extensionType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="extensionType">
+    <xs:sequence>
+      <xs:group ref="basicGameInfo"/>
+      <xs:element ref="link" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute ref="complexityScale"/>
+  </xs:complexType>
+
+  <xs:group name="basicGameInfo">
+    <xs:sequence>
+      <xs:element name="name">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="30"/>
+            <xs:minLength value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="minPlayersCount">
+        <xs:simpleType>
+          <xs:restriction base="xs:positiveInteger">
+            <xs:minInclusive value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="maxPlayersCount">
+        <xs:simpleType>
+          <xs:restriction base="xs:positiveInteger">
+            <xs:minExclusive value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="minAge" type="xs:positiveInteger"/>
+      <xs:element name="maxAge" type="xs:positiveInteger" minOccurs="0"/>
+      <xs:element name="description" type="descriptionType"/>
+      <xs:element name="starsList" type="starsRateListType" minOccurs="0"/>
+      <xs:element ref="image"/>
+    </xs:sequence>
+  </xs:group>
+
+  <xs:simpleType name="descriptionType">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="20"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+
+  <xs:complexType name="adressType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="source" type="xs:anyURI" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:simpleType name="yesNoType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="yes"/>
+      <xs:enumeration value="no"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="starsRateListType">
+    <xs:list itemType="starsType"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="starsType">
+    <xs:restriction base="xs:nonNegativeInteger">
+      <xs:maxInclusive value="5"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:attribute name="complexityScale">
+    <xs:simpleType>
+      <xs:restriction base="xs:nonNegativeInteger">
+        <xs:maxInclusive value="10"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:attribute>
+
+  <xs:element name="image" type="adressType"/>
+  <xs:element name="link" type="adressType"/>
+
+</xs:schema>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<games xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="dane.xsd">
+  <author>
+    <surname>Sokol</surname>
+    <name>Stefan</name>
+  </author>
+  <game extensionsAvailable="yes" complexityScale="5">
+    <name>Catan</name>
+    <minPlayersCount>3</minPlayersCount>
+    <maxPlayersCount>4</maxPlayersCount>
+    <minAge>10</minAge>
+    <description>
+      Osadnicy z Catanu (Settlers of Catan) to bardzo popularna na całym świecie gra rodzinno-ekonomiczna o
+      bardzo dużej "miodności" grania. Teraz prezentujemy jej polską edycję! Gracze są osadnikami na niedawno odkrytej
+      wyspie Catan. Każdy z nich przewodzi świeżo założonej kolonii i rozbudowuje ją stawiając na dostępnych obszarach
+      nowe drogi i miasta. Każda kolonia zbiera dostępne dobra naturalne, które są niezbędne do rozbudowy osiedli. Gracz
+      musi rozważnie stawiać nowe osiedla i drogi, aby zapewnić sobie dostateczny, ale zrównoważony dopływ zasobów, a
+      jeśli ma ich nadmiar - prowadzić handel z innymi graczami sprzedając im owce, drewno, cegły, zboże lub żelazo a
+      pozyskując od nich te zasoby, których ciągle mu brakuje. Pierwszy z graczy, który uzyska dziesięć punktów z
+      wybudowanych przez siebie dróg, osiedli i specjalnych kart - wygrywa.
+    </description>
+    <starsList>5 5 5 4 5</starsList>
+    <image source="img/catan.png">Gra Catan</image>
+    <type>planszowa</type>
+    <link source="https://www.rebel.pl/gry-planszowe/catan-osadnicy-z-catanu-edycja-eko-2013001.html">Link do gry
+      Catan
+    </link>
+    <extensions>
+      <extension complexityScale="7">
+        <name>Miasta i Rycerze</name>
+        <minPlayersCount>3</minPlayersCount>
+        <maxPlayersCount>4</maxPlayersCount>
+        <minAge>10</minAge>
+        <description>Handel nowymi towarami pozwala na imponujący rozwój miast, w których zaczynają pojawiać się
+          ratusze, biblioteki oraz twierdze wszystkie przynosząc rozwój i dobrobyt. Jednak bogactwo przyciąga także
+          hordy barbarzyńców. Na przygotowanie armii potężnych rycerzy jest naprawdę niewiele czasu. Jedynie ci, którym
+          uda się odeprzeć nadciągające niebezpieczeństwo, ochronią swe miasta przed zniszczeniem.
+          To rozszerzenie zawiera wiele nowych elementów, które uczynią waszą rozgrywkę bardziej wymagającą i dodadzą
+          jej dreszcz emocji.
+        </description>
+        <image source="img/catan_miasta_rycerze.png">Dodatek miasta i rycerze do Catan</image>
+      </extension>
+      <extension>
+        <name>Odkrywcy i piraci</name>
+        <minPlayersCount>3</minPlayersCount>
+        <maxPlayersCount>4</maxPlayersCount>
+        <minAge>10</minAge>
+        <description>
+          Załadujcie statki, odkryjcie nowe lądy, kupcie przyprawy od tubylców i pokonajcie piratów!
+          Dodatek „Odkrywcy i Piraci” pozwala przeżyć wspaniałe przygody dzięki kilku nowym scenariuszom, które można ze
+          sobą łączyć i modyfikować na wiele sposobów. Za sprawą losowych elementów plansza zmienia się z każdą
+          rozgrywką. Teraz każdy z graczy może wyruszyć w wielką i niebezpieczną podróż po świecie. Dodatek Odkrywcy i
+          Piraci można łączyć z innymi dodatkami.
+        </description>
+        <image source="img/catan_pirates.png">Dodatek z piratami do Catana</image>
+      </extension>
+    </extensions>
+  </game>
+  <game extensionsAvailable="no" complexityScale="8">
+    <name>Cytadela</name>
+    <minPlayersCount>2</minPlayersCount>
+    <maxPlayersCount>8</maxPlayersCount>
+    <minAge>10</minAge>
+    <description>Cytadela to nowa edycja strategicznej gry opartej o wymianę kart, w której co rundę korzystamy z pomocy
+      i zdolności innych postaci. Każdy mieszkaniec miasta zapewni nam zupełnie inny efekt, a my będziemy musieli
+      umiejętnie lawirować między pozyskiwaniem korzyści dla siebie a utrudnianiem rozgrywki przeciwnikom.
+
+      Rozgrywka w Cytadelę składa się z serii rund. Każda runda rozpoczyna się od fazy wyboru, podczas której gracze
+      przekazują sobie karty postaci i wybierają po 1 na daną rundę. Wszystkie karty postaci mają specjalne zdolności,
+      które pozwalają na przykład na kradzież monet czy zburzenie dzielnicy innego gracza.
+      Po fazie wyboru następuje faza tur graczy, podczas której gracze pobierają zasoby i budują nowe dzielnice w swoich
+      miastach. W ten sposób rozgrywka toczy się tak długo, aż jeden z uczestników wybuduje w swoim mieście 7.
+      dzielnicę.
+    </description>
+    <image source="img/cytadela.jpg"></image>
+    <type>karciana</type>
+    <link source="https://www.rebel.pl/gry-planszowe/cytadela-2003503.html">Link do Cytadeli</link>
+  </game>
+  <game extensionsAvailable="no">
+    <name>Terraformacja Marsa</name>
+    <minPlayersCount>1</minPlayersCount>
+    <maxPlayersCount>5</maxPlayersCount>
+    <minAge>12</minAge>
+    <description>W Terraformacji Marsa gracz obejmie kontrolę nad jedną z korporacji i jako jej zarząd będzie kupować i
+      zagrywać karty opisujące różne projekty inwestycyjne. Zazwyczaj projekty będą bezpośrednio lub pośrednio
+      przyczyniać się do procesu terraformacji, mogą też jednak być przedsięwzięciami biznesowymi innego rodzaju.
+
+      Aby wygrać, gracz musi osiągnąć wysoki Współczynnik Terraformacji (WT) i zdobyć dużo Punktów Zwycięstwa (PZ). WT
+      gracza wzrasta za każdym razem, kiedy podniesie on jeden ze Wskaźników Globalnych (Temperaturę, poziom Tlenu lub
+      liczbę Oceanów). Od WT zależy podstawowy dochód gracza, a także jego podstawowy wynik. W miarę przebiegu procesu
+      terraformacji gracze będą mogli realizować coraz większą liczbę projektów. Dodatkowe PZ można zdobyć za wszystko,
+      co przyczyni się do zwiększenia panowania ludzkości nad Układem Słonecznym, na przykład za zakładanie miast,
+      budowę infrastruktury lub ochronę środowiska.
+    </description>
+    <starsList>5 4 5 4 5 5 5</starsList>
+    <image source="img/terraformacja_marsa.jpg"></image>
+    <type>planszowa</type>
+    <link source="https://www.rebel.pl/gry-planszowe/terraformacja-marsa-edycja-gra-roku-99856.html">Tu znajdziesz grę
+      Terraformacja Marsa
+    </link>
+  </game>
+</games>
