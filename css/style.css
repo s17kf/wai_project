@@ -41,12 +41,19 @@ nav ul {
 
 #content {
   width: 80%;
-  background: #293124;
   float: right;
   padding: 1%;
   overflow: hidden;
   margin: 0 2% 1% 0;
+}
+
+#content, .ui-tabs, .ui-tabs-panel, .ui-tabs-nav, .ui-tab {
+  background: #293124;
   color: #a1afc0;
+}
+
+.ui-tabs, .ui-tabs-panel, .ui-tabs-nav, #tabs {
+  border-color: black;
 }
 
 #wrapper {
@@ -68,7 +75,6 @@ img.small {
   column-gap: 10px;
   row-gap: 10px;
 }
-
 
 .game_description > h1 + p::first-letter {
   font-weight: bold;
