@@ -66,7 +66,7 @@ function showInfo(button) {
     let parent = document.createElement("p");
     parent.className = button.relatedClass;
     parent.textContent = button.decorator(players);
-    div.insertBefore(parent, div.childNodes[2]);
+    div.insertBefore(parent, div.childNodes[1]);
   }
   button.buttonElement.textContent = button.buttonElement.textContent.replace("Pokaż", "Ukryj");
   storeValue(button._id, true);
@@ -74,12 +74,12 @@ function showInfo(button) {
 }
 
 function hideInfo(button) {
-  let playersInfos = document.getElementsByClassName(button.relatedClass);
-  while (playersInfos[0]) {
-    let playersInfo = playersInfos[0];
+  let elementsToRemove = document.getElementsByClassName(button.relatedClass);
+  while (elementsToRemove[0]) {
+    let playersInfo = elementsToRemove[0];
     let parent = playersInfo.parentElement;
     parent.removeChild(playersInfo);
-    console.log("removed players for " + parent.id);
+    console.log("removed " + button.relatedClass + " for " + parent.id);
   }
   button.buttonElement.textContent = button.buttonElement.textContent.replace("Ukryj", "Pokaż");
   storeValue(button._id, false);
