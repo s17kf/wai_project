@@ -6,7 +6,7 @@
   <title>Gry planszowe i karciane</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="static/css/style.css">
 </head>
 
 <body>
@@ -18,61 +18,47 @@
     <div class="text-center">
       <button id="back_to_gallery_button">Powrót do galerii</button>
     </div>
-    <img class="maximized" src="img/catan.png" alt="Zdjęcie gra Catan" id="catan_full_img"
+    <img class="maximized" src="static/img/catan.png" alt="Zdjęcie gra Catan" id="catan_full_img"
          onclick="cloaseMaximized(this)">
-    <img class="maximized" src="img/catan-inside01.png" alt="Zdjęcie gra Catan w środku" id="catan_inside_full_image"
+    <img class="maximized" src="static/img/catan-inside01.png" alt="Zdjęcie gra Catan w środku" id="catan_inside_full_image"
          onclick="cloaseMaximized(this)">
-    <img class="maximized" src=img/cytadela.jpg alt="Zdjęcie gra Cytadela" id="cytadela_full_img"
+    <img class="maximized" src=static/img/cytadela.jpg alt="Zdjęcie gra Cytadela" id="cytadela_full_img"
          onclick="cloaseMaximized(this)">
-    <img class="maximized" src=img/cytadela_cards_coins_crown.png alt="Zdjęcie gra Cytadela - karty i monety"
+    <img class="maximized" src=static/img/cytadela_cards_coins_crown.png alt="Zdjęcie gra Cytadela - karty i monety"
          id="cytadela_cards_coins_crown_full_img" onclick="cloaseMaximized(this)">
-    <img class="maximized" src=img/cytadela_characters_cards.png alt="Zdjęcie gra Cytadela - karty postaci"
+    <img class="maximized" src=static/img/cytadela_characters_cards.png alt="Zdjęcie gra Cytadela - karty postaci"
          id="cytadela_characters_cards_full_img" onclick="cloaseMaximized(this)">
-    <img class="maximized" src=img/terraformacja_marsa.jpg alt="Zdjęcie gra Terraformacja Marsa"
+    <img class="maximized" src=static/img/terraformacja_marsa.jpg alt="Zdjęcie gra Terraformacja Marsa"
          id="terraformacja_marsa_full_img" onclick="cloaseMaximized(this)">
-    <img class="maximized" src=img/odjechane_jednorozce.jpg alt="Zdjęcie gra Odjechane jednorożce"
+    <img class="maximized" src=static/img/odjechane_jednorozce.jpg alt="Zdjęcie gra Odjechane jednorożce"
          id="odjechane_jednorozce_full_img" onclick="cloaseMaximized(this)">
 
     <div class="gallery-grid-container" id="gallery_grid">
       <div class="gallery-grid-item" onclick="maximizeImage('catan_full_img')">
-        <img src="img/catan.png" class="gallery-item" alt="Zdjęcie gra Catan">
+        <img src="static/img/catan.png" class="gallery-item" alt="Zdjęcie gra Catan">
       </div>
       <div class="gallery-grid-item" onclick="maximizeImage('catan_inside_full_image')">
-        <img src="img/catan-inside01.png" class="gallery-item" alt="Zdjęcie gra Catan w środku">
+        <img src="static/img/catan-inside01.png" class="gallery-item" alt="Zdjęcie gra Catan w środku">
       </div>
       <div class="gallery-grid-item" onclick="maximizeImage('cytadela_full_img')">
-        <img src="img/cytadela.jpg" class="gallery-item" alt="Zdjęcie gra Cytadela">
+        <img src="static/img/cytadela.jpg" class="gallery-item" alt="Zdjęcie gra Cytadela">
       </div>
       <div class="gallery-grid-item" onclick="maximizeImage('cytadela_cards_coins_crown_full_img')">
-        <img src="img/cytadela_cards_coins_crown.png" class="gallery-item" alt="Zdjęcie gra Cytadela - karty i monety">
+        <img src="static/img/cytadela_cards_coins_crown.png" class="gallery-item" alt="Zdjęcie gra Cytadela - karty i monety">
       </div>
       <div class="gallery-grid-item" onclick="maximizeImage('cytadela_characters_cards_full_img')">
-        <img src="img/cytadela_characters_cards.png" class="gallery-item" alt="Zdjęcie gra Cytadela - karty postaci">
+        <img src="static/img/cytadela_characters_cards.png" class="gallery-item" alt="Zdjęcie gra Cytadela - karty postaci">
       </div>
       <div class="gallery-grid-item" onclick="maximizeImage('terraformacja_marsa_full_img')">
-        <img src="img/terraformacja_marsa.jpg" class="gallery-item" alt="Zdjęcie gra Terraformacja Marsa">
+        <img src="static/img/terraformacja_marsa.jpg" class="gallery-item" alt="Zdjęcie gra Terraformacja Marsa">
       </div>
       <div class="gallery-grid-item" onclick="maximizeImage('odjechane_jednorozce_full_img')">
-        <img src="img/odjechane_jednorozce.jpg" class="gallery-item" alt="Zdjęcie gra Odjechane jednorożce">
+        <img src="static/img/odjechane_jednorozce.jpg" class="gallery-item" alt="Zdjęcie gra Odjechane jednorożce">
       </div>
     </div>
   </div>
-  <nav id="navMenu">
-    <ul>
-      <li><a href="index.html">Strona główna</a></li>
-      <li>
-        <a href="games.html">Gry</a>
-        <ul class="foldable">
-          <li><a href="games.html#catan">Catan</a></li>
-          <li><a href="games.html#cytadela">Cytadela</a></li>
-          <li><a href="games.html#mars-terraformation">Terraformacja Marsa</a></li>
-          <li><a href="games.html#unicorns">Odjechane jednorożce</a></li>
-        </ul>
-      </li>
-      <li><a href="survey.html">Ankieta</a></li>
-      <li><a href="gallery.html" class="active">Galeria</a></li>
-    </ul>
-  </nav>
+
+  <?php dispatch($routing, '/nav') ?>
 
 </div>
 <footer id="foot">

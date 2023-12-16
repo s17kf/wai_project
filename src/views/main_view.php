@@ -6,7 +6,7 @@
   <title>Gry planszowe i karciane</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="static/css/style.css">
 </head>
 
 <body>
@@ -103,22 +103,8 @@
       </li>
     </ul>
   </div>
-  <nav id="navMenu">
-    <ul>
-      <li><a href="index.html" class="active">Strona główna</a></li>
-      <li>
-        <a href="games.html">Gry</a>
-        <ul class="foldable">
-          <li><a href="games.html#catan">Catan</a></li>
-          <li><a href="games.html#cytadela">Cytadela</a></li>
-          <li><a href="games.html#mars-terraformation">Terraformacja Marsa</a></li>
-          <li><a href="games.html#unicorns">Odjechane jednorożce</a></li>
-        </ul>
-      </li>
-      <li><a href="survey.html">Ankieta</a></li>
-      <li><a href="gallery.html">Galeria</a></li>
-    </ul>
-  </nav>
+
+  <?php dispatch($routing, '/nav') ?>
 
 </div>
 <footer id="foot">

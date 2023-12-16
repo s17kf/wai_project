@@ -5,7 +5,7 @@
   <title>Gry planszowe i karciane</title>
 
   <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="static/css/style.css">
 </head>
 <body>
 <div id="wrapper">
@@ -25,7 +25,7 @@
       </ul>
       <div id="catan">
         <div class="game-list-grid-container">
-          <img src="img/catan.png" class="small" alt="Zdjęcie gra Catan">
+          <img src="static/img/catan.png" class="small" alt="Zdjęcie gra Catan">
           <div class="game_description">
             <h1>Catan</h1>
             <p>
@@ -55,7 +55,7 @@
       </div>
       <div id=cytadela>
         <div class="game-list-grid-container">
-          <img src="img/cytadela.jpg" class="small" alt="Zdjęcie gra Cytadela">
+          <img src="static/img/cytadela.jpg" class="small" alt="Zdjęcie gra Cytadela">
           <div class="game_description">
             <h1>Cytadela</h1>
             <p>
@@ -82,7 +82,7 @@
       </div>
       <div id="mars-terraformation">
         <div class="game-list-grid-container">
-          <img src="img/terraformacja_marsa.jpg" class="small" alt="Zdjęcie gra Terraformacja Marsa">
+          <img src="static/img/terraformacja_marsa.jpg" class="small" alt="Zdjęcie gra Terraformacja Marsa">
           <div class="game_description">
             <h1>Terraformacja Marsa</h1>
             <p>
@@ -129,7 +129,7 @@
       </div>
       <div id="unicorns">
         <div class="game-list-grid-container">
-          <img src="img/odjechane_jednorozce.jpg" class="small" alt="Zdjęcie gra Odjechane jednorożce">
+          <img src="static/img/odjechane_jednorozce.jpg" class="small" alt="Zdjęcie gra Odjechane jednorożce">
           <div class="game_description">
             <h1>Odjechane jednorożce</h1>
             <p>
@@ -169,22 +169,8 @@
       </div>
     </div>
   </div>
-  <nav id="navMenu">
-    <ul>
-      <li><a href="index.html">Strona główna</a></li>
-      <li>
-        <a href="games.html" class="active">Gry</a>
-        <ul class="foldable">
-          <li><a href="games.html#catan">Catan</a></li>
-          <li><a href="games.html#cytadela">Cytadela</a></li>
-          <li><a href="games.html#mars-terraformation">Terraformacja Marsa</a></li>
-          <li><a href="games.html#unicorns">Odjechane jednorożce</a></li>
-        </ul>
-      </li>
-      <li><a href="survey.html">Ankieta</a></li>
-      <li><a href="gallery.html">Galeria</a></li>
-    </ul>
-  </nav>
+  <?php dispatch($routing, '/nav') ?>
+
 </div>
 <footer id="foot">
   <div id="date"></div>
