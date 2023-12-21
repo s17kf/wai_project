@@ -18,6 +18,13 @@
     <h1>Galeria</h1>
   </header>
   <div id="content">
+    <form enctype="multipart/form-data" method="post">
+      <input type="hidden" name="MAX_FILE_SIZE" value="<?= GALLERY_IMAGE_MAX_SIZE ?>"/>
+      Wybierz plik:
+      <input name="uploaded_image" id="uploaded_image_id" type="file" accept="image/jpeg, image/png" required>
+
+      <input type="submit" value="Wyślij">
+    </form>
     <div class="text-center">
       <button id="back_to_gallery_button">Powrót do galerii</button>
     </div>
