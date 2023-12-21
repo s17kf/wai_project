@@ -1,6 +1,9 @@
 <!doctype html>
 <html lang="pl">
 
+<?php include_once '../constants.php' ?>
+<?php require '../routing.php'?>
+
 <head>
   <meta charset="utf-8">
   <title>Gry planszowe i karciane</title>
@@ -20,7 +23,8 @@
     </div>
     <img class="maximized" src="static/img/catan.png" alt="Zdjęcie gra Catan" id="catan_full_img"
          onclick="cloaseMaximized(this)">
-    <img class="maximized" src="static/img/catan-inside01.png" alt="Zdjęcie gra Catan w środku" id="catan_inside_full_image"
+    <img class="maximized" src="static/img/catan-inside01.png" alt="Zdjęcie gra Catan w środku"
+         id="catan_inside_full_image"
          onclick="cloaseMaximized(this)">
     <img class="maximized" src=static/img/cytadela.jpg alt="Zdjęcie gra Cytadela" id="cytadela_full_img"
          onclick="cloaseMaximized(this)">
@@ -44,10 +48,12 @@
         <img src="static/img/cytadela.jpg" class="gallery-item" alt="Zdjęcie gra Cytadela">
       </div>
       <div class="gallery-grid-item" onclick="maximizeImage('cytadela_cards_coins_crown_full_img')">
-        <img src="static/img/cytadela_cards_coins_crown.png" class="gallery-item" alt="Zdjęcie gra Cytadela - karty i monety">
+        <img src="static/img/cytadela_cards_coins_crown.png" class="gallery-item"
+             alt="Zdjęcie gra Cytadela - karty i monety">
       </div>
       <div class="gallery-grid-item" onclick="maximizeImage('cytadela_characters_cards_full_img')">
-        <img src="static/img/cytadela_characters_cards.png" class="gallery-item" alt="Zdjęcie gra Cytadela - karty postaci">
+        <img src="static/img/cytadela_characters_cards.png" class="gallery-item"
+             alt="Zdjęcie gra Cytadela - karty postaci">
       </div>
       <div class="gallery-grid-item" onclick="maximizeImage('terraformacja_marsa_full_img')">
         <img src="static/img/terraformacja_marsa.jpg" class="gallery-item" alt="Zdjęcie gra Terraformacja Marsa">
@@ -58,7 +64,7 @@
     </div>
   </div>
 
-  <?php dispatch($routing, '/nav') ?>
+  <?php (new Dispatcher($routing))->dispatch('/nav') ?>
 
 </div>
 <footer id="foot">

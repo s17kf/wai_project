@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="pl">
+
+<?php require '../routing.php'?>
 <head>
   <meta charset="UTF-8">
   <title>Gry planszowe i karciane</title>
@@ -90,7 +92,7 @@
       </table>
     </form>
   </div>
-  <?php dispatch($routing, '/nav') ?>
+  <?php (new Dispatcher($routing))->dispatch('/nav') ?>
 </div>
 
 

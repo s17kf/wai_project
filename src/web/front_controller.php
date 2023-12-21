@@ -10,5 +10,7 @@ session_start();
 
 //wybór kontrolera do wywołania:
 $action_url = $_GET['action'];
-dispatch($routing, $action_url);
+
+$dispatcher = new Dispatcher($routing);
+$dispatcher->dispatch($action_url);
 
