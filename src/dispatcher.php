@@ -1,12 +1,15 @@
 <?php
 
-require_once 'controllers.php';
+use controllers\Controller;
+
+require_once 'controllers/Controller.php';
+include_once 'system_log.php';
 
 const REDIRECT_PREFIX = 'redirect:';
 
 class Dispatcher
 {
-  private $routing;
+  private array $routing;
 
   /**
    * @param $routing
@@ -16,31 +19,37 @@ class Dispatcher
     $this->routing = $routing;
   }
 
-  public function dispatch($action_url)
+  public function dispatch(string $action_url)
   {
-    $controller_name = $this->routing[$action_url];
-    syslog(LOG_INFO, "stefan: dispatching: " . $action_url . " ==> " . $controller_name);
+    $controller = $this->getController($action_url);
+    syslog(LOG_INFO, "stefan: dispatching: " . $action_url . " ==> " . get_class($controller));
 
     $model = [];
-    $view_name = $controller_name($model);
-
-    $this->build_response($view_name, $model);
+    $controller->processRequest($model);
+    $this->build_response($controller, $model);
   }
 
-  private function build_response($view, $model)
+  private function build_response(Controller &$controller, array &$model)
   {
-    if (strpos($view, REDIRECT_PREFIX) === 0) {
-      $url = substr($view, strlen(REDIRECT_PREFIX));
-      header("Location: " . $url);
+    [$shouldRedirect, $redirectionUrl] = $controller->getRedirection();
+    if ($shouldRedirect) {
+      header("Location: " . $redirectionUrl);
       return;
-    } else {
-      $this->render($view, $model);
     }
+    $this->render($controller, $model);
   }
 
-  private function render($view_name, $model)
+  private function render(Controller &$controller, array &$model)
   {
     extract($model);
-    include 'views/' . $view_name . '.php';
+    include 'views/' . $controller->getView() . '.php';
+  }
+
+  private function getController($action): Controller
+  {
+    $controllerName = $this->routing[$action];
+    require_once 'controllers/' . $controllerName . '.php';
+    $controllerFullName = 'controllers\\' . $controllerName;
+    return new $controllerFullName();
   }
 }

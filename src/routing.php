@@ -1,10 +1,10 @@
 <?php
 
 $routing = [
-  '/' => 'main',
-  '/main' => 'main',
-  '/games' => 'games',
-  '/gallery' => 'gallery',
-  '/survey' => 'survey',
-  '/nav' => 'nav',
+  '/' => 'MainController',
+  '/main' => 'MainController',
+  '/games' => 'GamesController',
+  '/gallery' => 'GalleryController',
+  '/survey' => 'SurveyController',
+  '/nav' => 'NavigationController',
 ];
