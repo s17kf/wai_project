@@ -4,7 +4,7 @@ namespace controllers;
 
 class SurveyController extends Controller
 {
-  public function processRequest(&$model): void
+  public function processRequest(&$model)
   {
     // TODO: Implement fill_model() method.
   }

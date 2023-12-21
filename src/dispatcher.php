@@ -9,7 +9,7 @@ const REDIRECT_PREFIX = 'redirect:';
 
 class Dispatcher
 {
-  private array $routing;
+  private $routing;
 
   /**
    * @param $routing
@@ -31,7 +31,9 @@ class Dispatcher
 
   private function build_response(Controller &$controller, array &$model)
   {
-    [$shouldRedirect, $redirectionUrl] = $controller->getRedirection();
+    $redirectionData = $controller->getRedirection();
+    $shouldRedirect = $redirectionData[0];
+    $redirectionUrl = $redirectionData[1];
     if ($shouldRedirect) {
       header("Location: " . $redirectionUrl);
       return;

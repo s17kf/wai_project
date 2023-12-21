@@ -5,7 +5,7 @@ namespace controllers;
 abstract class Controller
 {
 
-  abstract public function processRequest(&$model): void;
+  abstract public function processRequest(&$model);
 
   abstract public function getView(): string;
 

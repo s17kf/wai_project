@@ -9,7 +9,7 @@ use controllers\Controller;
 class GalleryController extends Controller
 {
 
-  private string $redirectUrl = "";
+  private $redirectUrl = "";
 
   public function getRedirection(): array
   {
@@ -17,7 +17,7 @@ class GalleryController extends Controller
   }
 
 
-  public function processRequest(&$model): void
+  public function processRequest(&$model)
   {
     // TODO: Implement fill_model() method.
     $params = [];
@@ -72,6 +72,7 @@ class GalleryController extends Controller
 
     $dirPath = "images";
     $dirContent = scandir($dirPath);
+    // TODO: handle dirPath doesn't exist
     $files = [];
     foreach ($dirContent as $file) {
       $filePath = $dirPath . '/' . $file;

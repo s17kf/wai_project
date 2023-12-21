@@ -7,7 +7,7 @@ use controllers\Controller;
 class NavigationController extends Controller
 {
 
-    public function processRequest(&$model): void
+    public function processRequest(&$model)
     {
         // TODO: Implement processRequest() method.
     }
