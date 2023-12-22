@@ -2,13 +2,15 @@
 <html lang="pl">
 
 <?php include_once '../constants.php' ?>
-<?php require '../routing.php'?>
+<?php require '../routing.php' ?>
 
 <head>
   <meta charset="utf-8">
   <title>Gry planszowe i karciane</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="static/css/style.css">
 </head>
 
@@ -18,13 +20,46 @@
     <h1>Galeria</h1>
   </header>
   <div id="content">
+    <?php if (!empty($infos)): ?>
+      <div>
+        <?php foreach ($infos as $info): ?>
+          <p><?= $info ?></p>
+        <?php endforeach ?>
+      </div>
+    <?php endif ?>
     <form enctype="multipart/form-data" method="post">
       <input type="hidden" name="MAX_FILE_SIZE" value="<?= GALLERY_IMAGE_MAX_SIZE ?>"/>
       Wybierz plik:
       <input name="uploaded_image" id="uploaded_image_id" type="file" accept="image/jpeg, image/png" required>
-
+      <br>
+      <label>
+        <span>Znak wodny: </span>
+        <input name="watermark" type="text" required>
+      </label>
+      <br>
       <input type="submit" value="Wyślij">
     </form>
+    <?php if ($upload_failed): ?>
+      <div id="errorDialog" title="Nie udało się wysłać zdjęcia" style="display: none">
+        <?php if (!empty($errors)): ?>
+          <p>Błędy:</p>
+          <ul>
+            <?php foreach ($errors as $error): ?>
+              <li><?= $error ?></li>
+            <?php endforeach ?>
+          </ul>
+        <?php endif ?>
+        <?php if (!empty($warnings)): ?>
+          <p>Ostrzerzenia:</p>
+          <ul>
+            <?php foreach ($warnings as $warning): ?>
+              <li><?= $warning ?></li>
+            <?php endforeach ?>
+          </ul>
+        <?php endif ?>
+      </div>
+    <?php endif ?>
+
     <div class="text-center">
       <button id="back_to_gallery_button">Powrót do galerii</button>
     </div>
@@ -79,6 +114,7 @@
 </footer>
 
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script src="js/navigation_dynamic.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", function (ev) {
@@ -86,6 +122,12 @@
     addMouseHoverEffect();
   })
 </script>
+
+<?php if(!empty($errors)): ?>
+  <script>
+    $("#errorDialog").dialog();
+  </script>
+<?php endif ?>
 
 <script>
   function maximizeImage(id) {
