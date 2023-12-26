@@ -15,6 +15,14 @@
     <h1>Gry planszowe i karciane</h1>
   </header>
   <div id="content">
+    <p>
+      GD info:
+      <ul>
+        <?php foreach(gd_info() as $key => $value): ?>
+          <li><?= $key ?> => <?= $value ?></li>
+        <?php endforeach ?>
+    </ul>
+    </p>
     <form action="odbierz.php" method="post">
       <table class="survey_table">
         <tr>

@@ -60,49 +60,41 @@
       </div>
     <?php endif ?>
 
-    <div class="text-center">
-      <button id="back_to_gallery_button">Powrót do galerii</button>
-    </div>
-    <img class="maximized" src="static/img/catan.png" alt="Zdjęcie gra Catan" id="catan_full_img"
-         onclick="cloaseMaximized(this)">
-    <img class="maximized" src="static/img/catan-inside01.png" alt="Zdjęcie gra Catan w środku"
-         id="catan_inside_full_image"
-         onclick="cloaseMaximized(this)">
-    <img class="maximized" src=static/img/cytadela.jpg alt="Zdjęcie gra Cytadela" id="cytadela_full_img"
-         onclick="cloaseMaximized(this)">
-    <img class="maximized" src=static/img/cytadela_cards_coins_crown.png alt="Zdjęcie gra Cytadela - karty i monety"
-         id="cytadela_cards_coins_crown_full_img" onclick="cloaseMaximized(this)">
-    <img class="maximized" src=static/img/cytadela_characters_cards.png alt="Zdjęcie gra Cytadela - karty postaci"
-         id="cytadela_characters_cards_full_img" onclick="cloaseMaximized(this)">
-    <img class="maximized" src=static/img/terraformacja_marsa.jpg alt="Zdjęcie gra Terraformacja Marsa"
-         id="terraformacja_marsa_full_img" onclick="cloaseMaximized(this)">
-    <img class="maximized" src=static/img/odjechane_jednorozce.jpg alt="Zdjęcie gra Odjechane jednorożce"
-         id="odjechane_jednorozce_full_img" onclick="cloaseMaximized(this)">
-
-    <div class="gallery-grid-container" id="gallery_grid">
-      <div class="gallery-grid-item" onclick="maximizeImage('catan_full_img')">
-        <img src="static/img/catan.png" class="gallery-item" alt="Zdjęcie gra Catan">
-      </div>
-      <div class="gallery-grid-item" onclick="maximizeImage('catan_inside_full_image')">
-        <img src="static/img/catan-inside01.png" class="gallery-item" alt="Zdjęcie gra Catan w środku">
-      </div>
-      <div class="gallery-grid-item" onclick="maximizeImage('cytadela_full_img')">
-        <img src="static/img/cytadela.jpg" class="gallery-item" alt="Zdjęcie gra Cytadela">
-      </div>
-      <div class="gallery-grid-item" onclick="maximizeImage('cytadela_cards_coins_crown_full_img')">
-        <img src="static/img/cytadela_cards_coins_crown.png" class="gallery-item"
-             alt="Zdjęcie gra Cytadela - karty i monety">
-      </div>
-      <div class="gallery-grid-item" onclick="maximizeImage('cytadela_characters_cards_full_img')">
-        <img src="static/img/cytadela_characters_cards.png" class="gallery-item"
-             alt="Zdjęcie gra Cytadela - karty postaci">
-      </div>
-      <div class="gallery-grid-item" onclick="maximizeImage('terraformacja_marsa_full_img')">
-        <img src="static/img/terraformacja_marsa.jpg" class="gallery-item" alt="Zdjęcie gra Terraformacja Marsa">
-      </div>
-      <div class="gallery-grid-item" onclick="maximizeImage('odjechane_jednorozce_full_img')">
-        <img src="static/img/odjechane_jednorozce.jpg" class="gallery-item" alt="Zdjęcie gra Odjechane jednorożce">
-      </div>
+    <div>
+      <?php if (!empty($images)): ?>
+        <div class="gallery-grid-container">
+          <?php foreach ($images as $image): ?>
+            <div class="gallery-grid-item">
+              <img src="<?= $image['src'] ?>" class="gallery-item" alt="<?= $image['src'] ?>">
+            </div>
+          <?php endforeach ?>
+        </div>
+        <div>
+          <p>
+            <?= $currentDisplayed['begin'] ?> - <?= $currentDisplayed['end'] ?> z <?= $currentDisplayed['total'] ?>
+          </p>
+          <table>
+            <!-- TODO: style for navigation table -->
+            <tr>
+              <?php foreach ($paginationData['navigationLinks'] as $navigationLink): ?>
+                <?php foreach ($navigationLink as $text => $link): ?>
+                  <td>
+                    <?php if ($link != ""): ?>
+                      <a href="<?= $link ?>" <?php if ($text == $currentPage) {
+                        echo 'class="active"';
+                      } ?> >
+                        <?= $text ?>
+                      </a>
+                    <?php else: ?>
+                      <?= $text ?>
+                    <?php endif ?>
+                  </td>
+                <?php endforeach ?>
+              <?php endforeach ?>
+            </tr>
+          </table>
+        </div>
+      <?php endif ?>
     </div>
   </div>
 
@@ -123,7 +115,7 @@
   })
 </script>
 
-<?php if(!empty($errors)): ?>
+<?php if (!empty($errors)): ?>
   <script>
     $("#errorDialog").dialog();
   </script>

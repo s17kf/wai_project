@@ -13,7 +13,6 @@ use utils\GalleryDb;
 use utils\GalleryDbImpl;
 use utils\GdHelper;
 use utils\WaiDb;
-use http\Exception\InvalidArgumentException;
 
 class GalleryController extends Controller
 {
@@ -53,7 +52,6 @@ class GalleryController extends Controller
     $this->redirectUrl = "gallery";
     $params = [];
     $imageFieldName = 'uploaded_image';
-    $imageFieldId = 'uploaded_image_id';
     system_log("gallery by POST method ...");
     if (!empty($_FILES[$imageFieldName])) {
       system_log("image (array): " . implode(";", $_FILES[$imageFieldName]));
@@ -123,23 +121,100 @@ class GalleryController extends Controller
 
   private function processGetRequest(&$model)
   {
-    $dirPath = self::IMAGES_DIRS['full'];
-    $dirContent = scandir($dirPath);
+    $this->handleUploadResult($model);
+    $dirPath = self::IMAGES_DIRS['mini'];
     // TODO: handle dirPath doesn't exist
-    $files = [];
+    $galleryDb = new GalleryDbImpl(new WaiDb());
+    $page = $_GET['page'] ?? 1;
+    system_log("page: " . $page);
+    $paginationData = $this->generatePaginationData($galleryDb, $page);
+    $model['currentPage'] = $page;
+    if ($page > $paginationData['totalPages']) {
+      $page = $paginationData['totalPages'];
+    }
+    $model['paginationData'] = $paginationData;
+    $imagesCount = $galleryDb->getImagesCount();
+    $model['currentDisplayed'] = [
+      'begin' => ($page - 1) * IMAGES_PER_PAGE + 1,
+      'end' => min(($page - 1) * IMAGES_PER_PAGE + IMAGES_PER_PAGE, $imagesCount),
+      'total' => $imagesCount,
+    ];
+    $images = $this->getImagesOnPage($galleryDb, $page);
+    $model['images'] = [];
+    foreach ($images as $image) {
+      $model['images'][] = [
+        'src' => $dirPath . '/' . $image['name'],
+      ];
+    }
+  }
+
+  private function getImagesOnPage(GalleryDb $galleryDb, int $page)
+  {
+    $skip = ($page - 1) * IMAGES_PER_PAGE;
+    $limit = IMAGES_PER_PAGE;
+    return $galleryDb->getImagesData(['skip' => $skip, 'limit' => $limit]);
+  }
+
+  private function generatePaginationData(GalleryDb $galleryDb, int $currentPage): array
+  {
+    $imagesCount = $galleryDb->getImagesCount();
+    $pages = ceil($imagesCount / IMAGES_PER_PAGE);
+    if ($currentPage > $pages) {
+      $currentPage = $pages;
+    }
+
+    $navigation_links = [];
+    if ($currentPage > 1) {
+      $navigation_links[] = ['<' => 'gallery?page=' . ($currentPage - 1)];
+      $navigation_links[] = [1 => 'gallery?page=' . 1];
+    } else {
+      $navigation_links[] = ['<' => ""];
+      $navigation_links[] = [1 => ""];
+    }
+    if ($currentPage > 3) {
+      $navigation_links[] = ['...' => ""];
+    }
+    if ($currentPage > 2) {
+      $navigation_links[] = [$currentPage - 1 => 'gallery?page=' . ($currentPage - 1)];
+    }
+    if ($currentPage != 1 and $currentPage != $pages) {
+      $navigation_links[] = [$currentPage => ""];
+    }
+    if ($currentPage < $pages - 1) {
+      $navigation_links[] = [$currentPage + 1 => 'gallery?page=' . ($currentPage + 1)];
+    }
+    if ($currentPage < $pages - 2) {
+      $navigation_links[] = ['...' => ""];
+    }
+    if ($currentPage < $pages) {
+      $navigation_links[] = [$pages => 'gallery?page=' . $pages];
+      $navigation_links[] = ['>' => 'gallery?page=' . ($currentPage + 1)];
+    } else {
+      $navigation_links[] = [$pages => ""];
+      $navigation_links[] = ['>' => ""];
+    }
+
+    return [
+      'navigationLinks' => $navigation_links,
+      'totalPages' => $pages,
+    ];
+  }
+
+  private function handleUploadResult(&$model)
+  {
     system_log("get params:");
     $errors = [];
     $warnings = [];
     $infos = [];
     foreach ($_GET as $key => $value) {
       system_log($key . '->' . $value);
-      if ($this->tryAddWarning($key, $value, $warnings)) {
+      if ($this->tryAddUploadWarning($key, $value, $warnings)) {
         continue;
       }
-      if ($this->tryAddError($key, $value, $errors)) {
+      if ($this->tryAddUploadError($key, $value, $errors)) {
         continue;
       }
-      if ($this->tryAddInfo($key, $value, $infos)) {
+      if ($this->tryAddUploadInfo($key, $value, $infos)) {
         continue;
       }
     }
@@ -147,16 +222,6 @@ class GalleryController extends Controller
     $model['warnings'] = $warnings;
     $model['errors'] = $errors;
     $model['infos'] = $infos;
-    foreach ($errors as $error) {
-      system_log($error);
-    }
-    foreach ($dirContent as $file) {
-      $filePath = $dirPath . '/' . $file;
-      if (is_file($filePath)) {
-        $files[] = $filePath;
-        system_log("file in gallery: " . $filePath);
-      }
-    }
   }
 
   private function isTypeAccepted(&$params, $uploadedFile): bool
@@ -182,7 +247,7 @@ class GalleryController extends Controller
     return $destFilepath;
   }
 
-  private function tryAddWarning($key, $arg, &$warnings): bool
+  private function tryAddUploadWarning($key, $arg, &$warnings): bool
   {
     switch ($key) {
       case "ext":
@@ -193,7 +258,7 @@ class GalleryController extends Controller
     return false;
   }
 
-  private function tryAddError($key, $arg, &$errors): bool
+  private function tryAddUploadError($key, $arg, &$errors): bool
   {
     switch ($key) {
       case "file_too_big":
@@ -211,7 +276,7 @@ class GalleryController extends Controller
     return false;
   }
 
-  private function tryAddInfo($key, $arg, &$infos): bool
+  private function tryAddUploadInfo($key, $arg, &$infos): bool
   {
     switch ($key) {
       case "file_added":
