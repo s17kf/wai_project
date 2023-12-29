@@ -8,5 +8,7 @@ interface GalleryDb
 
   public function getImagesData($options = []);
 
+  public function getImage($id);
+
   public function getImagesCount();
 }

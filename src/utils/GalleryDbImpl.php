@@ -4,6 +4,8 @@ namespace utils;
 
 require 'GalleryDb.php';
 
+use MongoDB\BSON\ObjectID;
+
 class GalleryDbImpl implements GalleryDb
 {
   private $db;
@@ -26,6 +28,11 @@ class GalleryDbImpl implements GalleryDb
   {
 
     return $this->db->gallery->find([], $options)->toArray();
+  }
+
+  public function getImage($id)
+  {
+    return $this->db->gallery->findOne(['_id' => new ObjectID($id)]);
   }
 
   public function getImagesCount()

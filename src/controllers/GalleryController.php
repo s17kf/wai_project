@@ -17,11 +17,7 @@ use utils\WaiDb;
 class GalleryController extends Controller
 {
 
-  const IMAGES_DIRS = [
-    'full' => 'images/full_size',
-    'mini' => 'images/thumbnails',
-    'watermarked' => 'images/watermarked',
-  ];
+
   private $redirectUrl = "";
 
   public function getRedirection(): array
@@ -75,9 +71,9 @@ class GalleryController extends Controller
         return;
       }
       $storedFileBaseName = pathinfo($storedFileName)['basename'];
-      $watermarkedFilePath = self::IMAGES_DIRS['watermarked'] . "/" . $storedFileBaseName;
+      $watermarkedFilePath = IMAGES_DIRS['watermarked'] . "/" . $storedFileBaseName;
       GdHelper::copyWithWatermark($storedFileName, $watermarkedFilePath, $_POST['watermark']);
-      $thumnailFilePath = self::IMAGES_DIRS['mini'] . '/' . $storedFileBaseName;
+      $thumnailFilePath = IMAGES_DIRS['mini'] . '/' . $storedFileBaseName;
       GdHelper::copyThumbnail($storedFileName, $thumnailFilePath);
 
       $galleryDb = new GalleryDbImpl(new WaiDb());
@@ -122,7 +118,6 @@ class GalleryController extends Controller
   private function processGetRequest(&$model)
   {
     $this->handleUploadResult($model);
-    $dirPath = self::IMAGES_DIRS['mini'];
     // TODO: handle dirPath doesn't exist
     $galleryDb = new GalleryDbImpl(new WaiDb());
     $page = $_GET['page'] ?? 1;
@@ -143,7 +138,8 @@ class GalleryController extends Controller
     $model['images'] = [];
     foreach ($images as $image) {
       $model['images'][] = [
-        'src' => $dirPath . '/' . $image['name'],
+        'id' => $image['_id'],
+        'src' => IMAGES_DIRS['mini'] . '/' . $image['name'],
       ];
     }
   }
@@ -240,7 +236,7 @@ class GalleryController extends Controller
     $fileNameStripped = pathinfo($uploadedFile['name'])['filename'];
     $mime_type = FileSystemHelper::getMimeType($uploadedFile['tmp_name']);
     $destFilepath = FileSystemHelper::getNextAvailableName(
-      self::IMAGES_DIRS['full'], $fileNameStripped, GALLERY_FILETYPE_TO_EXTENSION[$mime_type]);
+      IMAGES_DIRS['full'], $fileNameStripped, GALLERY_FILETYPE_TO_EXTENSION[$mime_type]);
     if (!move_uploaded_file($uploadedFile['tmp_name'], $destFilepath)) {
       throw new \Exception("Failed to move file");
     }

@@ -65,7 +65,9 @@
         <div class="gallery-grid-container">
           <?php foreach ($images as $image): ?>
             <div class="gallery-grid-item">
+              <a href="image?img=<?= $image['id'] ?>&page=<?= $currentPage ?>">
               <img src="<?= $image['src'] ?>" class="gallery-item" alt="<?= $image['src'] ?>">
+              </a>
             </div>
           <?php endforeach ?>
         </div>
