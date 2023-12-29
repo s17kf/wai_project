@@ -27,18 +27,57 @@
         <?php endforeach ?>
       </div>
     <?php endif ?>
-    <form enctype="multipart/form-data" method="post">
-      <input type="hidden" name="MAX_FILE_SIZE" value="<?= GALLERY_IMAGE_MAX_SIZE ?>"/>
-      Wybierz plik:
-      <input name="uploaded_image" id="uploaded_image_id" type="file" accept="image/jpeg, image/png" required>
-      <br>
-      <label>
-        <span>Znak wodny: </span>
-        <input name="watermark" type="text" required>
-      </label>
-      <br>
-      <input type="submit" value="Wyślij">
-    </form>
+    <div>
+      <input id="show_image_upload_form_button" type="button" value="Pokaż formularz dodawania zdjęć"
+             onclick="showImageUploadForm()">
+      <input id="hide_image_upload_form_button" type="button" value="Ukryj formularz dodawania zdjęć"
+             onclick="hideImageUploadForm()" style="display: none">
+    </div>
+    <div id="image_upload_form" style="display: none">
+      <form enctype="multipart/form-data" method="post">
+        <input type="hidden" name="MAX_FILE_SIZE" value="<?= GALLERY_IMAGE_MAX_SIZE ?>"/>
+        <table class="survey_table">
+          <tr>
+            <td>
+              Wybierz plik:
+            </td>
+            <td>
+              <input name="uploaded_image" id="uploaded_image_id" type="file" accept="image/jpeg, image/png" required>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="watermark">Znak wodny:</label>
+            </td>
+            <td>
+              <input name="watermark" id="watermark" type="text" required>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="title">Tytuł:</label>
+            </td>
+            <td>
+              <input name="title" id="title" type="text">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="author">Autor:</label>
+            </td>
+            <td>
+              <input name="author" id="author" type="text">
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <input type="submit" value="Wyślij">
+            </td>
+          </tr>
+        </table>
+      </form>
+    </div>
     <?php if ($upload_failed): ?>
       <div id="errorDialog" title="Nie udało się wysłać zdjęcia" style="display: none">
         <?php if (!empty($errors)): ?>
@@ -65,9 +104,25 @@
         <div class="gallery-grid-container">
           <?php foreach ($images as $image): ?>
             <div class="gallery-grid-item">
-              <a href="image?img=<?= $image['id'] ?>&page=<?= $currentPage ?>">
-              <img src="<?= $image['src'] ?>" class="gallery-item" alt="<?= $image['src'] ?>">
-              </a>
+              <table>
+                <tr>
+                  <td>
+                    <a href="image?img=<?= $image['id'] ?>&page=<?= $currentPage ?>">
+                      <img src="<?= $image['src'] ?>" class="gallery-item" alt="<?= $image['src'] ?>">
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <?= $image['title'] ?>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Author: <?= $image['author'] ?>
+                  </td>
+                </tr>
+              </table>
             </div>
           <?php endforeach ?>
         </div>
@@ -80,11 +135,11 @@
               </td>
               <?php foreach ($paginationData['navigationLinks'] as $navigationLink): ?>
                 <?php foreach ($navigationLink as $text => $link): ?>
-                  <td  class="gallery-pagination">
+                  <td class="gallery-pagination">
                     <?php if ($link != ""): ?>
                       <a href="<?= $link ?>" class="gallery-pagination-link<?php if ($text == $currentPage) {
                         echo ' active';
-                      } ?>" >
+                      } ?>">
                         <?= $text ?>
                       </a>
                     <?php else: ?>
@@ -124,25 +179,18 @@
 <?php endif ?>
 
 <script>
-  function maximizeImage(id) {
-    if (outerWidth <= 600) {
-      return;
-    }
-    console.log("maximize: " + id);
-    let maximizedImage = document.getElementById(id);
-    maximizedImage.style.display = 'block';
-    document.getElementById("gallery_grid").style.display = 'none';
-    let backToGalleryButton = document.getElementById("back_to_gallery_button");
-    backToGalleryButton.style.display = 'inline-block';
-    backToGalleryButton.onclick = function () {
-      cloaseMaximized(maximizedImage)
-    }
+  function showImageUploadForm() {
+    console.log("show image upload form");
+    $('#image_upload_form').show();
+    $('#show_image_upload_form_button').hide();
+    $('#hide_image_upload_form_button').show();
   }
 
-  function cloaseMaximized(image) {
-    image.style.display = 'none';
-    document.getElementById('gallery_grid').style.display = 'inline-grid';
-    document.getElementById("back_to_gallery_button").style.display = 'none';
+  function hideImageUploadForm(image) {
+    console.log("hide image upload form");
+    $('#image_upload_form').hide();
+    $('#show_image_upload_form_button').show();
+    $('#hide_image_upload_form_button').hide();
   }
 </script>
 

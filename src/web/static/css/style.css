@@ -134,6 +134,14 @@ td + td {
   text-align: left;
 }
 
+.survey_table input {
+  border-color: #a1afc0;
+}
+
+input[type=button] {
+  border-color: #a1afc0;
+}
+
 .gallery-grid-container {
   display: inline-grid;
   grid-template-columns: auto auto auto auto auto;

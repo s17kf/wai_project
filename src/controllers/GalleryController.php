@@ -76,12 +76,7 @@ class GalleryController extends Controller
       $thumnailFilePath = IMAGES_DIRS['mini'] . '/' . $storedFileBaseName;
       GdHelper::copyThumbnail($storedFileName, $thumnailFilePath);
 
-      $galleryDb = new GalleryDbImpl(new WaiDb());
-      $imageData = [
-        'name' => $storedFileBaseName,
-      ];
-      $insertedId = $galleryDb->saveImageData($imageData);
-      system_log("image saved in db with id: " . $insertedId);
+      $this->saveImageDataInDb($storedFileBaseName);
       $params['file_added'] = $uploadedFile['name'];
       system_log("succesfully uploaded file " . $uploadedFile['name'] . " watermark=" .
         $_POST['watermark']);
@@ -134,14 +129,26 @@ class GalleryController extends Controller
       'end' => min(($page - 1) * IMAGES_PER_PAGE + IMAGES_PER_PAGE, $imagesCount),
       'total' => $imagesCount,
     ];
+    $model['images'] = $this->getImagesData($galleryDb, $page);
+  }
+
+  private function getImagesData(GalleryDb $galleryDb, int $page)
+  {
     $images = $this->getImagesOnPage($galleryDb, $page);
-    $model['images'] = [];
+    $imagesData = [];
     foreach ($images as $image) {
-      $model['images'][] = [
+      system_log(gettype($image));
+      foreach ($image as $key => $value) {
+        system_log($key . '->' . $value);
+      }
+      $imagesData[] = [
         'id' => $image['_id'],
         'src' => IMAGES_DIRS['mini'] . '/' . $image['name'],
+        'title' => $image['title'] ?? "",
+        'author' => $image['author'] ?? "",
       ];
     }
+    return $imagesData;
   }
 
   private function getImagesOnPage(GalleryDb $galleryDb, int $page)
@@ -218,6 +225,18 @@ class GalleryController extends Controller
     $model['warnings'] = $warnings;
     $model['errors'] = $errors;
     $model['infos'] = $infos;
+  }
+
+  private function saveImageDataInDb($name)
+  {
+    $galleryDb = new GalleryDbImpl(new WaiDb());
+    $imageData = [
+      'name' => $name,
+      'title' => $_POST['title'],
+      'author' => $_POST['author'],
+    ];
+    $insertedId = $galleryDb->saveImageData($imageData);
+    system_log("image saved in db with id: " . $insertedId);
   }
 
   private function isTypeAccepted(&$params, $uploadedFile): bool
