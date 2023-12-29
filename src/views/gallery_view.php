@@ -70,19 +70,19 @@
           <?php endforeach ?>
         </div>
         <div>
-          <p>
-            <?= $currentDisplayed['begin'] ?> - <?= $currentDisplayed['end'] ?> z <?= $currentDisplayed['total'] ?>
-          </p>
-          <table>
+          <table class="bordered">
             <!-- TODO: style for navigation table -->
             <tr>
+              <td>
+                <?= $currentDisplayed['begin'] ?> - <?= $currentDisplayed['end'] ?> z <?= $currentDisplayed['total'] ?>
+              </td>
               <?php foreach ($paginationData['navigationLinks'] as $navigationLink): ?>
                 <?php foreach ($navigationLink as $text => $link): ?>
-                  <td>
+                  <td  class="gallery-pagination">
                     <?php if ($link != ""): ?>
-                      <a href="<?= $link ?>" <?php if ($text == $currentPage) {
-                        echo 'class="active"';
-                      } ?> >
+                      <a href="<?= $link ?>" class="gallery-pagination-link<?php if ($text == $currentPage) {
+                        echo ' active';
+                      } ?>" >
                         <?= $text ?>
                       </a>
                     <?php else: ?>

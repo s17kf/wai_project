@@ -13,4 +13,4 @@ const GALLERY_EXPECTED_EXTENSIONS = ['jpg', 'jpeg', 'png'];
 
 const MAX_SAME_NAME_FILES = 100;
 
-const IMAGES_PER_PAGE = 3;
+const IMAGES_PER_PAGE = 7;

@@ -147,6 +147,14 @@ td + td {
   animation-fill-mode: forwards;
 }
 
+.gallery-pagination {
+  font-size: 20px;
+}
+
+#content .gallery-pagination a:visited {
+  color: #a1afc0;
+}
+
 .maximized {
   position: relative;
   display: none;
