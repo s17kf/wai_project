@@ -7,3 +7,6 @@ dist
 
 .idea/
 
+cp_files_to*
+vendor/
+composer.lock
