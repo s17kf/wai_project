@@ -19,12 +19,11 @@ class Dispatcher
     $this->routing = $routing;
   }
 
-  public function dispatch(string $action_url)
+  public function dispatch(string $action_url, $model = [])
   {
     $controller = $this->getController($action_url);
     syslog(LOG_INFO, "stefan: dispatching: " . $action_url . " ==> " . get_class($controller));
 
-    $model = [];
     $controller->processRequest($model);
     $this->build_response($controller, $model);
   }
