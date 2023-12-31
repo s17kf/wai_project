@@ -129,7 +129,7 @@ class GalleryController extends Controller
     $model['images'] = $this->getImagesData($galleryDb, $page);
   }
 
-  private function getImagesData(GalleryDb $galleryDb, int $page)
+  private function getImagesData(GalleryDb &$galleryDb, int $page)
   {
     $images = $this->getImagesOnPage($galleryDb, $page);
     $imagesData = [];
@@ -148,14 +148,14 @@ class GalleryController extends Controller
     return $imagesData;
   }
 
-  private function getImagesOnPage(GalleryDb $galleryDb, int $page)
+  private function getImagesOnPage(GalleryDb &$galleryDb, int $page)
   {
     $skip = ($page - 1) * IMAGES_PER_PAGE;
     $limit = IMAGES_PER_PAGE;
     return $galleryDb->getImagesData(['skip' => $skip, 'limit' => $limit]);
   }
 
-  private function generatePaginationData(GalleryDb $galleryDb, int $currentPage): array
+  private function generatePaginationData(GalleryDb &$galleryDb, int $currentPage): array
   {
     $imagesCount = $galleryDb->getImagesCount();
     $pages = ceil($imagesCount / IMAGES_PER_PAGE);

@@ -3,9 +3,13 @@
 namespace controllers;
 
 require '../utils/FormWarning.php';
+require '../utils/UsersDbImpl.php';
+require '../utils/WaiDb.php';
 
-use controllers\Controller;
 use utils\FormWarning;
+use utils\UsersDb;
+use utils\UsersDbImpl;
+use utils\WaiDb;
 
 class LoginController extends Controller
 {
@@ -55,13 +59,22 @@ class LoginController extends Controller
 
   private function processPostRequest(array &$model)
   {
+    $usersDb = new UsersDbImpl(new WaiDb());
     if ($_POST['form_id'] === 'new_user') {
       $params = [];
-      if (!$this->validateNewUserData($params)) {
-        $params['email'] = $_POST['e-mail'];
-        $params['login'] = $_POST['login'];
+      if (!$this->validateNewUserData($params, $usersDb)) {
+        $params['email'] = urlencode($_POST['e-mail']);
+        $params['login'] = urlencode($_POST['login']);
         $this->redirectUrl = "login?" . self::serializeParams($params);
+        return;
       }
+      if ($this->addNewUser($usersDb)) {
+        $this->redirectUrl = "login?userAdded=" . $_POST['login'];
+        return;
+      }
+      $model['newUserError'] = "Nie udało się utworzyć konta! Spróbuj ponownie lub skontaktuj się z administratorem strony.";
+      $model['email'] = $_POST['e-mail'];
+      $model['login'] = $_POST['login'];
     }
   }
 
@@ -98,16 +111,29 @@ class LoginController extends Controller
       }
     }
     $model['newUserValidationWarnings'] = $newUserValidationWarnings;
+    if (key_exists('userAdded', $_GET)) {
+      $model['newUserAdded'] = $_GET['userAdded'];
+    }
   }
 
-  private function validateNewUserData(array &$params)
+
+  private function addNewUser(UsersDb &$usersDb): bool
+  {
+    $email = $_POST['e-mail'];
+    $login = $_POST['login'];
+    $password = $_POST['password'];
+    $passwordHash = password_hash($password, PASSWORD_BCRYPT);
+    return $usersDb->saveUser($email, $login, $passwordHash);
+  }
+
+  private function validateNewUserData(array &$params, UsersDb &$usersDb): bool
   {
     $email = $_POST['e-mail'];
     $login = $_POST['login'];
     $password = $_POST['password'];
     $passwordRepeated = $_POST['password-repeated'];
-    $emailValidationResult = $this->validateEmail($email);
-    $loginValidationResult = $this->validateLogin($login);
+    $emailValidationResult = $this->validateEmail($email, $usersDb);
+    $loginValidationResult = $this->validateLogin($login, $usersDb);
     $passwordValidationResult = $this->validatePassword($password);
     $passwordRepeatedValidationResult = $this->validatePasswordRepeated($password, $passwordRepeated);
     if ($emailValidationResult + $loginValidationResult + $passwordValidationResult + $passwordRepeatedValidationResult
@@ -117,24 +143,31 @@ class LoginController extends Controller
         $loginValidationResult,
         $passwordValidationResult,
         $passwordRepeatedValidationResult);
+      return false;
     }
-    return false;
+    return true;
   }
 
-  private function validateEmail(string $email): int
+  private function validateEmail(string $email, UsersDb &$usersDb): int
   {
     $emailRegex = "/^[a-z0-9.+]+@[a-z0-9]+.[a-z]+$/i";
     if (!preg_match($emailRegex, $email)) {
       return self::NOT_VALID;
     }
+    if ($usersDb->isUserWithEmail($email)) {
+      return self::NAME_ALREADY_USED;
+    }
     return self::OK;
   }
 
-  private function validateLogin(string $email): int
+  private function validateLogin(string $login, UsersDb &$usersDb): int
   {
     $loginRegex = "/^[a-z0-9_]+$/i";
-    if (!preg_match($loginRegex, $email)) {
+    if (!preg_match($loginRegex, $login)) {
       return self::NOT_VALID;
+    }
+    if ($usersDb->isUserWithLogin($login)) {
+      return self::NAME_ALREADY_USED;
     }
     return self::OK;
   }

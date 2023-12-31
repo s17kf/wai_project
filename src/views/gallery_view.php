@@ -138,6 +138,7 @@
 
 <?php if (!empty($errors)): ?>
   <script>
+    $("#errorDialog").show();
     $("#errorDialog").dialog();
   </script>
 <?php endif ?>

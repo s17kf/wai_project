@@ -24,11 +24,21 @@
     <div id="new_user_form_container">
       <h1>Zarejestruj się</h1>
       <form name="new_user_form" id="new_user_form" method="post" onsubmit="return validateNewUserForm()">
-        <input type="hidden" name="form_id" id="form_id_id" value="new_user" >
+        <input type="hidden" name="form_id" id="form_id_id" value="new_user">
         <?php
         (new Dispatcher($routing))->dispatch('/form-table', ['formEntriesData' => $newUserFormEntriesData]);
         ?>
       </form>
+      <?php if (isset($newUserError)): ?>
+        <div id="errorDialog" title="Nie udało się utworzyć konta!" style="display: none">
+          <p><?= $newUserError ?></p>
+        </div>
+      <?php endif ?>
+      <?php if (isset($newUserAdded)): ?>
+        <div id="newUserInfoDialog" title="Konto zostało utworzone" style="display: none">
+          <p>Konto użytkownika <?= $newUserAdded ?> zostało utworzone.</p>
+        </div>
+      <?php endif ?>
     </div>
   </div>
 
@@ -49,9 +59,22 @@
   })
 </script>
 
+<?php if (isset($newUserError)): ?>
+  <script>
+    $('#errorDialog').show();
+    $('#errorDialog').dialog();
+  </script>
+<?php endif ?>
+
+<?php if (isset($newUserAdded)): ?>
+  <script>
+    $('#newUserInfoDialog').show();
+    $('#newUserInfoDialog').dialog();
+  </script>
+<?php endif ?>
+
 <script>
   function validateNewUserForm() {
-    return true;
     let form = document.forms["new_user_form"];
     let email = form['e-mail'].value;
     let login = form['login'].value;
@@ -71,7 +94,7 @@
     if (password.length < passwordMinLength) {
       alerts.push(" - hasło jest za krótkie!");
     }
-    if (password !== passwordRepeated){
+    if (password !== passwordRepeated) {
       alerts.push(" - powtórzone hasło jest inne!")
     }
 
