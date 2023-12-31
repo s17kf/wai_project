@@ -3,6 +3,7 @@
 
 <?php include_once '../constants.php' ?>
 <?php require '../routing.php' ?>
+<?php require_once 'data/upload_image_form.php' ?>
 
 <head>
   <meta charset="utf-8">
@@ -33,49 +34,12 @@
       <input id="hide_image_upload_form_button" type="button" value="Ukryj formularz dodawania zdjęć"
              onclick="hideImageUploadForm()" style="display: none">
     </div>
-    <div id="image_upload_form" style="display: none">
+    <div id="image_upload_form_container" style="display: none">
       <form enctype="multipart/form-data" method="post">
         <input type="hidden" name="MAX_FILE_SIZE" value="<?= GALLERY_IMAGE_MAX_SIZE ?>"/>
-        <table class="survey_table">
-          <tr>
-            <td>
-              Wybierz plik:
-            </td>
-            <td>
-              <input name="uploaded_image" id="uploaded_image_id" type="file" accept="image/jpeg, image/png" required>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label for="watermark">Znak wodny:</label>
-            </td>
-            <td>
-              <input name="watermark" id="watermark" type="text" required>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label for="title">Tytuł:</label>
-            </td>
-            <td>
-              <input name="title" id="title" type="text">
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label for="author">Autor:</label>
-            </td>
-            <td>
-              <input name="author" id="author" type="text">
-            </td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>
-              <input type="submit" value="Wyślij">
-            </td>
-          </tr>
-        </table>
+        <?php
+        (new Dispatcher($routing))->dispatch('/form-table', ['formEntriesData' => $uploadImageFormEntriesData]);
+        ?>
       </form>
     </div>
     <?php if ($upload_failed): ?>
@@ -155,7 +119,7 @@
     </div>
   </div>
 
-  <?php (new Dispatcher($routing))->dispatch('/nav') ?>
+  <?php (new Dispatcher($routing))->dispatch('/nav', ['active' => 'gallery']) ?>
 
 </div>
 <footer id="foot">
@@ -181,14 +145,14 @@
 <script>
   function showImageUploadForm() {
     console.log("show image upload form");
-    $('#image_upload_form').show();
+    $('#image_upload_form_container').show();
     $('#show_image_upload_form_button').hide();
     $('#hide_image_upload_form_button').show();
   }
 
   function hideImageUploadForm(image) {
     console.log("hide image upload form");
-    $('#image_upload_form').hide();
+    $('#image_upload_form_container').hide();
     $('#show_image_upload_form_button').show();
     $('#hide_image_upload_form_button').hide();
   }

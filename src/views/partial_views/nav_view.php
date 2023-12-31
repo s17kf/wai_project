@@ -4,6 +4,8 @@ $menuEntries = [
   'games' => 'Gry',
   'survey' => 'Ankieta',
   'gallery' => 'Galeria',
+  'login' => 'Zaloguj',
+  // TODO: handle somehow login <-> log out
 ]
 ?>
 
@@ -11,7 +13,8 @@ $menuEntries = [
   <ul>
     <?php
     foreach ($menuEntries as $action => $toShow) {
-      $entry = '<li><a href="' . $action . '">' . $toShow . '</a></li>';
+      $active_entry_part = $active === $action ? ' class="active"' : '';
+      $entry = '<li><a href="' . $action . '"' . $active_entry_part . '>' . $toShow . '</a></li>';
       echo $entry;
     }
     ?>

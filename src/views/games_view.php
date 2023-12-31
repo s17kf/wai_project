@@ -171,7 +171,7 @@
       </div>
     </div>
   </div>
-  <?php (new Dispatcher($routing))->dispatch('/nav') ?>
+  <?php (new Dispatcher($routing))->dispatch('/nav', ['active' => 'games']) ?>
 
 </div>
 <footer id="foot">

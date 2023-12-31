@@ -7,5 +7,7 @@ $routing = [
   '/gallery' => 'GalleryController',
   '/image' => 'GalleryItemController',
   '/survey' => 'SurveyController',
+  '/login' => 'LoginController',
   '/nav' => 'NavigationController',
+  '/form-table' => 'FormTableController'
 ];

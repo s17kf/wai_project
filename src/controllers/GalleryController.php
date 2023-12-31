@@ -26,10 +26,8 @@ class GalleryController extends Controller
   }
 
 
-  public function processRequest(&$model)
+  public function processRequest(array &$model)
   {
-    // TODO: Implement fill_model() method.
-    system_log("");
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $this->processPostRequest($model);
       return;
@@ -39,7 +37,6 @@ class GalleryController extends Controller
 
   public function getView(): string
   {
-    // TODO: Implement get_view() method.
     return 'gallery_view';
   }
 

@@ -4,15 +4,13 @@ namespace controllers;
 
 class SurveyController extends Controller
 {
-  public function processRequest(&$model)
+  public function processRequest(array &$model)
   {
-    // TODO: Implement fill_model() method.
   }
 
 
   public function getView(): string
   {
-    // TODO: Implement get_view() method.
     return 'survey_view';
   }
 

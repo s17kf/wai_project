@@ -100,7 +100,7 @@
       </table>
     </form>
   </div>
-  <?php (new Dispatcher($routing))->dispatch('/nav') ?>
+  <?php (new Dispatcher($routing))->dispatch('/nav', ['active' => 'survey']) ?>
 </div>
 
 

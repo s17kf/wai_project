@@ -7,14 +7,15 @@ use controllers\Controller;
 class NavigationController extends Controller
 {
 
-    public function processRequest(&$model)
+    public function processRequest(array &$model)
     {
-        // TODO: Implement processRequest() method.
+      if(!array_key_exists('active', $model)){
+        $model['active'] = "";
+      }
     }
 
     public function getView(): string
     {
-        // TODO: Implement getView() method.
       return "partial_views/nav_view";
     }
 }

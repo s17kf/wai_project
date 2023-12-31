@@ -105,7 +105,7 @@
     </ul>
   </div>
 
-  <?php (new Dispatcher($routing))->dispatch('/nav') ?>
+  <?php (new Dispatcher($routing))->dispatch('/nav', ['active' => 'main']) ?>
 
 </div>
 <footer id="foot">
