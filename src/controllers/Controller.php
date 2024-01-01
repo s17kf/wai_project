@@ -14,6 +14,11 @@ abstract class Controller
     return [false, ""];
   }
 
+  protected function isUserLogged(): bool
+  {
+    return isset($_SESSION['user']);
+  }
+
   protected static function serializeParams(&$params): string
   {
     $serialized = "";

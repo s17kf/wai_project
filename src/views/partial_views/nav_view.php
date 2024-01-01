@@ -1,14 +1,3 @@
-<?php
-$menuEntries = [
-  'main' => 'Strona główna',
-  'games' => 'Gry',
-  'survey' => 'Ankieta',
-  'gallery' => 'Galeria',
-  'login' => 'Zaloguj',
-  // TODO: handle somehow login <-> log out
-]
-?>
-
 <nav id="navMenu">
   <ul>
     <?php

@@ -4,9 +4,7 @@ namespace utils;
 
 require 'UsersDb.php';
 
-use MongoDB\BSON\PackedArray;
-use utils\UsersDb;
-use function PHPUnit\Framework\isTrue;
+use MongoDB\BSON\ObjectId;
 
 class UsersDbImpl implements UsersDb
 {
@@ -35,11 +33,20 @@ class UsersDbImpl implements UsersDb
     return true;
   }
 
+  public function getUserById(string $id)
+  {
+    return $this->db->users->findOne(['_id' => new ObjectId($id)]);
+  }
+
+  public function getUserData(string $login)
+  {
+    return $this->db->users->findOne(['login' => $login]);
+  }
+
 
   public function getPasswordHash(string $login): string
   {
-    // TODO: Implement getPassphrase() method.
-    return "xd";
+    return $this->db->users->findOne(['login' => $login])->passwordHash;
   }
 
   public function isUserWithLogin(string $login): bool

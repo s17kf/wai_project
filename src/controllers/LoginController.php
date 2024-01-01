@@ -54,33 +54,78 @@ class LoginController extends Controller
 
   public function getView(): string
   {
+    if ($this->isUserLogged()) {
+      return 'login_successful_view';
+    }
     return 'login_view';
   }
 
   private function processPostRequest(array &$model)
   {
-    $usersDb = new UsersDbImpl(new WaiDb());
-    if ($_POST['form_id'] === 'new_user') {
-      $params = [];
-      if (!$this->validateNewUserData($params, $usersDb)) {
-        $params['email'] = urlencode($_POST['e-mail']);
-        $params['login'] = urlencode($_POST['login']);
-        $this->redirectUrl = "login?" . self::serializeParams($params);
+    switch ($_POST['form_id']) {
+      case 'new_user':
+        $this->handleAddNewUser($model);
         return;
-      }
-      if ($this->addNewUser($usersDb)) {
-        $this->redirectUrl = "login?userAdded=" . $_POST['login'];
+      case 'login':
+        $this->handleLogin($model);
         return;
-      }
-      $model['newUserError'] = "Nie udało się utworzyć konta! Spróbuj ponownie lub skontaktuj się z administratorem strony.";
-      $model['email'] = $_POST['e-mail'];
-      $model['login'] = $_POST['login'];
     }
+    //TODO: should handle some exception?
+    $this->redirectUrl = "login";
+  }
+
+  private function handleLogin(array &$model)
+  {
+    $usersDb = new UsersDbImpl(new WaiDb());
+    $login = $_POST['login'];
+    $password = $_POST['password'];
+    system_log(sprintf("handle login user=%s password=%s", $login, $password));
+    if (!$usersDb->isUserWithLogin($login)) {
+      system_log("user not found");
+      $this->failLogin($login);
+      return;
+    }
+    $userData = $usersDb->getUserData($login);
+    if (password_verify($password, $userData->passwordHash)) {
+      $_SESSION['user'] = $userData->_id;
+      $this->redirectUrl = sprintf("login");
+    } else {
+      system_log("password not correct!");
+      $this->failLogin($login);
+    }
+  }
+
+  private function failLogin($login)
+  {
+    $this->redirectUrl = sprintf("login?login_failed&login=%s", $_POST['login']);
+  }
+
+  private function handleAddNewUser(array &$model)
+  {
+    $usersDb = new UsersDbImpl(new WaiDb());
+    $params = [];
+    if (!$this->validateNewUserData($params, $usersDb)) {
+      $params['email'] = urlencode($_POST['e-mail']);
+      $params['new_login'] = urlencode($_POST['login']);
+      $this->redirectUrl = "login?" . self::serializeParams($params);
+      return;
+    }
+    if ($this->addNewUser($usersDb)) {
+      $this->redirectUrl = "login?userAdded=" . $_POST['login'];
+      return;
+    }
+    $model['newUserError'] = "Nie udało się utworzyć konta! Spróbuj ponownie lub skontaktuj się z administratorem strony.";
+    $model['email'] = $_POST['e-mail'];
+    $model['new_login'] = $_POST['login'];
   }
 
   private function processGetRequest(array &$model)
   {
-    $fields = ['email', 'login'];
+    if ($this->isUserLogged()) {
+      $this->handleLoggedUser($model);
+      return;
+    }
+    $fields = ['email', 'login', 'new_login'];
     foreach ($fields as $field) {
       if (key_exists($field, $_GET)) {
         $model[$field] = $_GET[$field];
@@ -114,10 +159,22 @@ class LoginController extends Controller
     if (key_exists('userAdded', $_GET)) {
       $model['newUserAdded'] = $_GET['userAdded'];
     }
+    if (key_exists('login_failed', $_GET)) {
+      $model['login_failed'] = true;
+    }
   }
 
+  private function handleLoggedUser(array &$model)
+  {
+    $userId = $_SESSION['user'];
+    $usersDb = new UsersDbImpl(new WaiDb());
+    $userData = $usersDb->getUserById($userId);
+    $model['login'] = $userData->login;
+    $model['email'] = $userData->email;
+  }
 
-  private function addNewUser(UsersDb &$usersDb): bool
+  private
+  function addNewUser(UsersDb &$usersDb): bool
   {
     $email = $_POST['e-mail'];
     $login = $_POST['login'];
@@ -126,7 +183,8 @@ class LoginController extends Controller
     return $usersDb->saveUser($email, $login, $passwordHash);
   }
 
-  private function validateNewUserData(array &$params, UsersDb &$usersDb): bool
+  private
+  function validateNewUserData(array &$params, UsersDb &$usersDb): bool
   {
     $email = $_POST['e-mail'];
     $login = $_POST['login'];
@@ -148,7 +206,8 @@ class LoginController extends Controller
     return true;
   }
 
-  private function validateEmail(string $email, UsersDb &$usersDb): int
+  private
+  function validateEmail(string $email, UsersDb &$usersDb): int
   {
     $emailRegex = "/^[a-z0-9.+]+@[a-z0-9]+.[a-z]+$/i";
     if (!preg_match($emailRegex, $email)) {
@@ -160,7 +219,8 @@ class LoginController extends Controller
     return self::OK;
   }
 
-  private function validateLogin(string $login, UsersDb &$usersDb): int
+  private
+  function validateLogin(string $login, UsersDb &$usersDb): int
   {
     $loginRegex = "/^[a-z0-9_]+$/i";
     if (!preg_match($loginRegex, $login)) {
@@ -172,7 +232,8 @@ class LoginController extends Controller
     return self::OK;
   }
 
-  private function validatePassword(string $password): int
+  private
+  function validatePassword(string $password): int
   {
     if (strlen($password) < 4) {
       return self::NOT_VALID;
@@ -180,7 +241,8 @@ class LoginController extends Controller
     return self::OK;
   }
 
-  private function validatePasswordRepeated(string $password, string $passwordRepeated): int
+  private
+  function validatePasswordRepeated(string $password, string $passwordRepeated): int
   {
     if ($password !== $passwordRepeated) {
       return self::NOT_VALID;

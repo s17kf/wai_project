@@ -147,6 +147,11 @@ input[type=button] {
   font-size: 15px;
 }
 
+.form-ok-notification {
+   color: lawngreen;
+   font-size: 20px;
+ }
+
 .gallery-grid-container {
   display: inline-grid;
   grid-template-columns: auto auto auto auto auto;

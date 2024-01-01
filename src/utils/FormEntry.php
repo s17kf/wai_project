@@ -23,7 +23,7 @@ class FormEntry
    * @param FormWarning|null $warning
    */
   public function __construct(string $label, string $id, string $name, string $type, array $attributes = [],
-                              bool   $required = false, FormWarning $warning = null)
+                              bool   $required = true, FormWarning $warning = null)
   {
     $this->label = $label;
     $this->id = $id;

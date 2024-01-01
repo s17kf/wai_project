@@ -21,6 +21,31 @@
     <h1>Gry planszowe i karciane</h1>
   </header>
   <div id="content">
+    <div id="login_form_container">
+      <h1>Zaloguj się</h1>
+      <?php if (isset($login_failed)): ?>
+        <p class="form-warning">Login lub hasło niepoprawne!</p>
+      <?php endif ?>
+      <?php if (isset($logged_out)): ?>
+        <p class="form-ok-notification">Wylogowano!</p>
+      <?php endif ?>
+      <form name="login_form" id="login_form" method="post">
+        <input type="hidden" name="form_id" id="form_id" value="login">
+        <?php
+        (new Dispatcher($routing))->dispatch('/form-table', ['formEntriesData' => $loginEntriesData]);
+        ?>
+      </form>
+      <?php if (isset($newUserError)): ?>
+        <div id="errorDialog" title="Nie udało się utworzyć konta!" style="display: none">
+          <p><?= $newUserError ?></p>
+        </div>
+      <?php endif ?>
+      <?php if (isset($newUserAdded)): ?>
+        <div id="newUserInfoDialog" title="Konto zostało utworzone" style="display: none">
+          <p>Konto użytkownika <?= $newUserAdded ?> zostało utworzone.</p>
+        </div>
+      <?php endif ?>
+    </div>
     <div id="new_user_form_container">
       <h1>Zarejestruj się</h1>
       <form name="new_user_form" id="new_user_form" method="post" onsubmit="return validateNewUserForm()">
