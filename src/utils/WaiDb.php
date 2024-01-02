@@ -25,9 +25,9 @@ class WaiDb implements DataBase
   }
 
   /**
-   * @return mixed
+   * @return \MongoDB\Database
    */
-  public function getDb()
+  public function getDb(): \MongoDB\Database
   {
     return $this->db;
   }

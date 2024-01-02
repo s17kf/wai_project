@@ -7,11 +7,15 @@ require '../utils/FileSystemHelper.php';
 require '../utils/GalleryDbImpl.php';
 require '../utils/WaiDb.php';
 require '../utils/GdHelper.php';
+require '../utils/UserInfoFetcher.php';
+require '../utils/UsersDbImpl.php';
 
 use utils\FileSystemHelper;
 use utils\GalleryDb;
 use utils\GalleryDbImpl;
 use utils\GdHelper;
+use utils\UserInfoFetcher;
+use utils\UsersDbImpl;
 use utils\WaiDb;
 
 class GalleryController extends Controller
@@ -26,6 +30,7 @@ class GalleryController extends Controller
 
   public function processRequest(array &$model)
   {
+    $model['userInfoFetcher'] = new UserInfoFetcher(new UsersDbImpl(new WaiDb()));
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $this->processPostRequest($model);
       return;

@@ -1,9 +1,15 @@
 <!doctype html>
 <html lang="pl">
 
-<?php include_once '../constants.php' ?>
-<?php require '../routing.php' ?>
-<?php require_once 'data/upload_image_form.php' ?>
+<?php
+include_once '../constants.php';
+require '../routing.php';
+require '../utils/FormEntry.php';
+
+use \utils\FormEntry;
+
+?>
+
 
 <head>
   <meta charset="utf-8">
@@ -22,6 +28,17 @@
   </header>
   <div id="content">
     <?php if (isset($upload_image_form) && $upload_image_form): ?>
+      <?php
+      $authorAttributes = $userInfoFetcher->isUserLogged() ? ['value' => $userInfoFetcher->getUserLogin()] : [];
+      $uploadImageFormEntriesData = [
+        new FormEntry("Wybierz plik:", "uploaded_image_id", "uploaded_image", "file",
+          ['accept' => 'image/jpeg, image/png']),
+        new FormEntry("Znak wodny:", "watermark", "watermark", "text"),
+        new FormEntry("Tytuł:", "title", "title", "text", [], false),
+        new FormEntry("Autor", "author", "author", "text", $authorAttributes, false),
+        new FormEntry("", "submit-button", "submit-button", "submit", ['value' => 'Wyślij']),
+      ];
+      ?>
       <?php if (!empty($infos)): ?>
         <div>
           <?php foreach ($infos as $info): ?>

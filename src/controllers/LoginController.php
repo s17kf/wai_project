@@ -85,7 +85,7 @@ class LoginController extends Controller
       $this->failLogin($login);
       return;
     }
-    $userData = $usersDb->getUserData($login);
+    $userData = $usersDb->getUserDataByLogin($login);
     if (password_verify($password, $userData->passwordHash)) {
       $_SESSION['user'] = $userData->_id;
       $this->redirectUrl = sprintf("login");
@@ -168,7 +168,7 @@ class LoginController extends Controller
   {
     $userId = $_SESSION['user'];
     $usersDb = new UsersDbImpl(new WaiDb());
-    $userData = $usersDb->getUserById($userId);
+    $userData = $usersDb->getUserDataById($userId);
     $model['login'] = $userData->login;
     $model['email'] = $userData->email;
   }

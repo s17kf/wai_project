@@ -6,9 +6,9 @@ interface UsersDb
 {
   public function saveUser(string $email, string $login, string $passwordHash): bool;
 
-  public function getUserById(string $id);
+  public function getUserDataById(string $id);
 
-  public function getUserData(string $login);
+  public function getUserDataByLogin(string $login);
 
   public function getPasswordHash(string $login): string;
 

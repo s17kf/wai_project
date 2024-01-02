@@ -33,12 +33,12 @@ class UsersDbImpl implements UsersDb
     return true;
   }
 
-  public function getUserById(string $id)
+  public function getUserDataById(string $id)
   {
     return $this->db->users->findOne(['_id' => new ObjectId($id)]);
   }
 
-  public function getUserData(string $login)
+  public function getUserDataByLogin(string $login)
   {
     return $this->db->users->findOne(['login' => $login]);
   }
