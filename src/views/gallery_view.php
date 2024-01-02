@@ -24,7 +24,7 @@
     <?php if (!empty($infos)): ?>
       <div>
         <?php foreach ($infos as $info): ?>
-          <p><?= $info ?></p>
+          <p class="form-ok-notification"><?= $info ?></p>
         <?php endforeach ?>
       </div>
     <?php endif ?>
@@ -37,6 +37,8 @@
     <div id="image_upload_form_container" style="display: none">
       <form enctype="multipart/form-data" method="post">
         <input type="hidden" name="MAX_FILE_SIZE" value="<?= GALLERY_IMAGE_MAX_SIZE ?>"/>
+        <input type="hidden" name="form_id" id="form_id" value="add_image">
+        <input type="hidden" name="page" id="page" value="<?= $currentPage ?>">
         <?php
         (new Dispatcher($routing))->dispatch('/form-table', ['formEntriesData' => $uploadImageFormEntriesData]);
         ?>
@@ -65,10 +67,22 @@
 
     <div>
       <?php if (!empty($images)): ?>
+        <?php $memory_form_id = 'memory_form' ?>
         <div class="gallery-grid-container">
           <?php foreach ($images as $image): ?>
             <div class="gallery-grid-item">
               <table>
+                <tr>
+                  <td>
+                    <input type="checkbox" name="checked_images[]" value="<?= $image['id'] ?>"
+                           form="<?= $memory_form_id ?>"
+                      <?php
+                      if (in_array($image['id'], $usersChosenImages))
+                        echo 'checked'
+                      ?>
+                    >
+                  </td>
+                </tr>
                 <tr>
                   <td>
                     <a href="image?img=<?= $image['id'] ?>&page=<?= $currentPage ?>">
@@ -112,9 +126,16 @@
                   </td>
                 <?php endforeach ?>
               <?php endforeach ?>
+              <td>
+                <input type="submit" value="Zapamiętaj wybrane" form="<?= $memory_form_id ?>">
+              </td>
             </tr>
           </table>
         </div>
+        <form id="<?= $memory_form_id ?>" method="post">
+          <input type="hidden" name="form_id" id="form_id" value="memory_images">
+          <input type="hidden" name="page" id="page" value="<?= $currentPage ?>">
+        </form>
       <?php endif ?>
     </div>
   </div>

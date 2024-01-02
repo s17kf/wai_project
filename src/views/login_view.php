@@ -22,12 +22,12 @@
   </header>
   <div id="content">
     <div id="login_form_container">
+      <?php if (isset($logged_out)): ?>
+        <p class="form-ok-notification">Wylogowano!</p>
+      <?php endif ?>
       <h1>Zaloguj się</h1>
       <?php if (isset($login_failed)): ?>
         <p class="form-warning">Login lub hasło niepoprawne!</p>
-      <?php endif ?>
-      <?php if (isset($logged_out)): ?>
-        <p class="form-ok-notification">Wylogowano!</p>
       <?php endif ?>
       <form name="login_form" id="login_form" method="post">
         <input type="hidden" name="form_id" id="form_id" value="login">

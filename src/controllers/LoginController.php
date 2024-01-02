@@ -125,7 +125,7 @@ class LoginController extends Controller
       $this->handleLoggedUser($model);
       return;
     }
-    $fields = ['email', 'login', 'new_login'];
+    $fields = ['email', 'login', 'new_login', 'logged_out'];
     foreach ($fields as $field) {
       if (key_exists($field, $_GET)) {
         $model[$field] = $_GET[$field];

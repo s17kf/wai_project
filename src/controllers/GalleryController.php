@@ -40,10 +40,34 @@ class GalleryController extends Controller
     return 'gallery_view';
   }
 
-  private function processPostRequest(&$model)
+  private function processPostRequest(array &$model)
+  {
+    switch ($_POST['form_id']) {
+      case 'add_image':
+        $this->handleAddNewImage($model);
+        return;
+      case 'memory_images':
+        $this->handleMemoryImages($model);
+        return;
+    }
+    //TODO: should handle some exception?
+    $this->redirectUrl = "gallery";
+  }
+
+  private function handleMemoryImages(array &$model)
+  {
+    foreach ($_POST['checked_images'] as $checked_image) {
+      system_log("IMAGE: " . $checked_image);
+      $_SESSION['usersChosenImages'][] = $checked_image;
+      $_SESSION['usersChosenImages'] = array_unique($_SESSION['usersChosenImages']);
+    }
+    $this->redirectUrl = sprintf("gallery?page=%s", $_POST['page']);
+  }
+
+  private function handleAddNewImage(array &$model)
   {
     $this->redirectUrl = "gallery";
-    $params = [];
+    $params = ['page' => $_POST['page'] ?? 1];
     $imageFieldName = 'uploaded_image';
     system_log("gallery by POST method ...");
     if (!empty($_FILES[$imageFieldName])) {
@@ -101,10 +125,6 @@ class GalleryController extends Controller
     if (!empty($params)) {
       $this->redirectUrl .= '?' . Controller::serializeParams($params);
     }
-    system_log("post params:");
-    foreach ($_POST as $key => $value) {
-      system_log($key . " -> " . $value);
-    }
   }
 
   private function processGetRequest(&$model)
@@ -113,7 +133,6 @@ class GalleryController extends Controller
     // TODO: handle dirPath doesn't exist
     $galleryDb = new GalleryDbImpl(new WaiDb());
     $page = $_GET['page'] ?? 1;
-    system_log("page: " . $page);
     $paginationData = $this->generatePaginationData($galleryDb, $page);
     $model['currentPage'] = $page;
     if ($page > $paginationData['totalPages']) {
@@ -127,6 +146,13 @@ class GalleryController extends Controller
       'total' => $imagesCount,
     ];
     $model['images'] = $this->getImagesData($galleryDb, $page);
+
+    $model['usersChosenImages'] = $_SESSION['usersChosenImages'] ?? [];
+    if (isset($_SESSION['usersChosenImages'])) {
+      system_log("USERS IMAGES:");
+      foreach ($_SESSION['usersChosenImages'] as $usersChosenImage)
+        system_log($usersChosenImage);
+    }
   }
 
   private function getImagesData(GalleryDb &$galleryDb, int $page)
@@ -134,10 +160,6 @@ class GalleryController extends Controller
     $images = $this->getImagesOnPage($galleryDb, $page);
     $imagesData = [];
     foreach ($images as $image) {
-      system_log(gettype($image));
-      foreach ($image as $key => $value) {
-        system_log($key . '->' . $value);
-      }
       $imagesData[] = [
         'id' => $image['_id'],
         'src' => IMAGES_DIRS['mini'] . '/' . $image['name'],
@@ -202,12 +224,10 @@ class GalleryController extends Controller
 
   private function handleUploadResult(&$model)
   {
-    system_log("get params:");
     $errors = [];
     $warnings = [];
     $infos = [];
     foreach ($_GET as $key => $value) {
-      system_log($key . '->' . $value);
       if ($this->tryAddUploadWarning($key, $value, $warnings)) {
         continue;
       }
