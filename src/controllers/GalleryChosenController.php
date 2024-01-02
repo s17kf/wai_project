@@ -55,6 +55,9 @@ class GalleryChosenController extends Controller
   private function getImagesAndPaginationData(array &$model, int $page)
   {
     $galleryDb = new GalleryDbImpl(new WaiDb());
+    if (!isset($_SESSION['usersChosenImages'])) {
+      $_SESSION['usersChosenImages'] = [];
+    }
     $usersChosenImages = $_SESSION['usersChosenImages'];
     $imagesCount = count($usersChosenImages);
     if ($imagesCount === 0) {
