@@ -36,6 +36,13 @@ class GalleryChosenController extends Controller
 
   private function processPostRequest(array &$model)
   {
+    foreach ($_POST['checked_images'] as $image) {
+      system_log("deleting image: " . $image);
+      $imageIndex = array_search($image, $_SESSION['usersChosenImages']);
+      unset($_SESSION['usersChosenImages'][$imageIndex]);
+      $_SESSION['usersChosenImages'] = array_values($_SESSION['usersChosenImages']);
+    }
+    $this->redirectUrl = sprintf("gallery-chosen?page=%s", $_POST['page']);
   }
 
   private function processGetRequest(array &$model)
@@ -50,6 +57,9 @@ class GalleryChosenController extends Controller
     $galleryDb = new GalleryDbImpl(new WaiDb());
     $usersChosenImages = $_SESSION['usersChosenImages'];
     $imagesCount = count($usersChosenImages);
+    if ($imagesCount === 0) {
+      return;
+    }
     $paginationData = $this->generatePaginationData($page, $imagesCount);
     $model['currentPage'] = $page;
     if ($page > $paginationData['totalPages']) {
@@ -63,7 +73,7 @@ class GalleryChosenController extends Controller
       system_log($key . '->' . $usersChosenImage);
 
     $imagesData = [];
-    for ($i = $currentDisplayed['begin']; $i < $currentDisplayed['end']; ++$i) {
+    for ($i = $currentDisplayed['begin'] - 1; $i < $currentDisplayed['end']; ++$i) {
       $image = $galleryDb->getImage($usersChosenImages[$i]);
       $imagesData[] = [
         'id' => $image['_id'],

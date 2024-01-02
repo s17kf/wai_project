@@ -48,7 +48,9 @@ abstract class Controller
       $navigationLinks[] = [$totalPages => $destPage . '?page=' . $totalPages];
       $navigationLinks[] = ['>' => $destPage . '?page=' . ($currentPage + 1)];
     } else {
-      $navigationLinks[] = [$totalPages => ""];
+      if ($totalPages > 1) {
+        $navigationLinks[] = [$totalPages => ""];
+      }
       $navigationLinks[] = ['>' => ""];
     }
     return $navigationLinks;
