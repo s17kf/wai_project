@@ -70,7 +70,7 @@
                 </tr>
                 <tr>
                   <td>
-                    <a href="image?img=<?= $image['id'] ?>&page=<?= $currentPage ?>">
+                    <a href="image?img=<?= $image['id'] ?>&page=<?= $currentPage ?>&return=<?= $action ?>">
                       <img src="<?= $image['src'] ?>" class="gallery-item" alt="<?= $image['src'] ?>">
                     </a>
                   </td>

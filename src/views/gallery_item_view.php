@@ -18,7 +18,7 @@
 
 <div id="wrapper">
   <div>
-    <a href="gallery?page=<?= $page ?>"><-- Wróć do galerii</a>
+    <a href="<?= $return_url ?>?page=<?= $page ?>"><-- Wróć do galerii</a>
   </div>
   <img src="<?= $image_src ?>" alt="<?= $image_src ?>">
 

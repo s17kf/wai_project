@@ -19,7 +19,7 @@ class GalleryChosenController extends Controller
   {
     return [$this->redirectUrl != "", $this->redirectUrl];
   }
-  
+
   public function processRequest(array &$model)
   {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -96,6 +96,7 @@ class GalleryChosenController extends Controller
     $model['upload_image_form'] = false;
     $model['image_checkbox'] = "Usuń z wybranych";
     $model['memory_form_submit'] = "Usuń zaznaczone z wybranych";
+    $model['action'] = $_GET['action'];
   }
 
 

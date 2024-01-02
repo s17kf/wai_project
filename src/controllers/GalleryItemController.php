@@ -19,6 +19,7 @@ class GalleryItemController extends Controller
     $image = $galleryDb->getImage($id);
     $model['image_src'] = IMAGES_DIRS['watermarked'] . '/' . $image['name'];
     $model['page'] = $_GET['page'];
+    $model['return_url'] = $_GET['return'];
   }
 
   public function getView(): string

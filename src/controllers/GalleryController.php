@@ -156,6 +156,7 @@ class GalleryController extends Controller
     $model['upload_image_form'] = true;
     $model['image_checkbox'] = "Zapamiętaj";
     $model['memory_form_submit'] = "Zapamiętaj wybrane";
+    $model['action'] = $_GET['action'];
   }
 
   private function getImagesData(GalleryDb &$galleryDb, int $page): array
