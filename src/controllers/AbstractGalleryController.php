@@ -2,6 +2,10 @@
 
 namespace controllers;
 
+
+require_once '../utils/GalleryDbImpl.php';
+require_once '../constants.php';
+
 use controllers\Controller;
 use utils\GalleryDb;
 use utils\GalleryDbImpl;
@@ -16,7 +20,8 @@ abstract class AbstractGalleryController extends Controller
     $this->userId = $_SESSION['user'] ?? null;
   }
 
-  protected function getImagesAndPaginationData(array &$model, string $destPage, array $dbFilter = null)
+  protected function setImagesAndPaginationData(array &$model, string $destPage, array $dbFilter = null,
+                                                string $destParams = null)
   {
     $galleryDb = new GalleryDbImpl($this->db);
     $page = $_GET['page'] ?? 1;
@@ -24,7 +29,7 @@ abstract class AbstractGalleryController extends Controller
     if ($imagesCount === 0) {
       return;
     }
-    $paginationData = $this->generatePaginationData($page, $imagesCount, $destPage);
+    $paginationData = $this->generatePaginationData($page, $imagesCount, $destPage, $destParams);
     if ($page > $paginationData['totalPages']) {
       $page = $paginationData['totalPages'];
     }
@@ -62,13 +67,14 @@ abstract class AbstractGalleryController extends Controller
     ];
   }
 
-  protected function generatePaginationData(int $currentPage, int $imagesCount, string $destPage): array
+  protected function generatePaginationData(int    $currentPage, int $imagesCount, string $destPage,
+                                            string $destParams = null): array
   {
     $pages = ceil($imagesCount / IMAGES_PER_PAGE);
     if ($currentPage > $pages) {
       $currentPage = $pages;
     }
-    $navigationLinks = $this->generatePaginationLinks($currentPage, $pages, $destPage);
+    $navigationLinks = $this->generatePaginationLinks($currentPage, $pages, $destPage, $destParams);
 
     return [
       'navigationLinks' => $navigationLinks,
@@ -76,12 +82,14 @@ abstract class AbstractGalleryController extends Controller
     ];
   }
 
-  protected function generatePaginationLinks(int $currentPage, int $totalPages, string $destPage): array
+  protected function generatePaginationLinks(int    $currentPage, int $totalPages, string $destPage,
+                                             string $destParams = null): array
   {
+    $destParams = isset($destParams) ? '&' . $destParams : "";
     $navigationLinks = [];
     if ($currentPage > 1) {
-      $navigationLinks[] = ['<' => $destPage . '?page=' . ($currentPage - 1)];
-      $navigationLinks[] = [1 => $destPage . '?page=' . 1];
+      $navigationLinks[] = ['<' => $destPage . '?page=' . ($currentPage - 1) . $destParams];
+      $navigationLinks[] = [1 => $destPage . '?page=' . 1 . $destParams];
     } else {
       $navigationLinks[] = ['<' => ""];
       $navigationLinks[] = [1 => ""];
@@ -90,20 +98,20 @@ abstract class AbstractGalleryController extends Controller
       $navigationLinks[] = ['...' => ""];
     }
     if ($currentPage > 2) {
-      $navigationLinks[] = [$currentPage - 1 => $destPage . '?page=' . ($currentPage - 1)];
+      $navigationLinks[] = [$currentPage - 1 => $destPage . '?page=' . ($currentPage - 1) . $destParams];
     }
     if ($currentPage != 1 and $currentPage != $totalPages) {
       $navigationLinks[] = [$currentPage => ""];
     }
     if ($currentPage < $totalPages - 1) {
-      $navigationLinks[] = [$currentPage + 1 => $destPage . '?page=' . ($currentPage + 1)];
+      $navigationLinks[] = [$currentPage + 1 => $destPage . '?page=' . ($currentPage + 1) . $destParams];
     }
     if ($currentPage < $totalPages - 2) {
       $navigationLinks[] = ['...' => ""];
     }
     if ($currentPage < $totalPages) {
-      $navigationLinks[] = [$totalPages => $destPage . '?page=' . $totalPages];
-      $navigationLinks[] = ['>' => $destPage . '?page=' . ($currentPage + 1)];
+      $navigationLinks[] = [$totalPages => $destPage . '?page=' . $totalPages . $destParams];
+      $navigationLinks[] = ['>' => $destPage . '?page=' . ($currentPage + 1) . $destParams];
     } else {
       if ($totalPages > 1) {
         $navigationLinks[] = [$totalPages => ""];

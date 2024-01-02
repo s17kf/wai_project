@@ -10,6 +10,8 @@ $routing = [
   '/survey' => 'SurveyController',
   '/login' => 'LoginController',
   '/logout' => "LogoutController",
+  '/image-search' => "ImageSearchController",
+  '/image-search-ajax-request' => "ImageSearchControllerAjax",
   '/nav' => 'NavigationController',
-  '/form-table' => 'FormTableController'
+  '/form-table' => 'FormTableController',
 ];

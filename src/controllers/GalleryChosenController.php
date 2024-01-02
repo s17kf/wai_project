@@ -4,7 +4,6 @@ namespace controllers;
 
 require_once 'AbstractGalleryController.php';
 require_once '../constants.php';
-require '../utils/GalleryDbImpl.php';
 
 use controllers\Controller;
 use MongoDB\BSON\ObjectId;
@@ -62,7 +61,7 @@ class GalleryChosenController extends AbstractGalleryController
         '$in' => $usersChosenImageIds,
       ],
     ];
-    $this->getImagesAndPaginationData($model, "gallery-chosen", $dbFilter);
+    $this->setImagesAndPaginationData($model, "gallery-chosen", $dbFilter);
   }
 
   private function setGalleryViewRelatedOptions(array &$model)

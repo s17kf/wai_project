@@ -5,7 +5,6 @@ namespace controllers;
 require_once 'AbstractGalleryController.php';
 require_once '../constants.php';
 require '../utils/FileSystemHelper.php';
-require '../utils/GalleryDbImpl.php';
 require '../utils/GdHelper.php';
 require '../utils/UserInfoFetcher.php';
 require '../utils/UsersDbImpl.php';
@@ -135,7 +134,7 @@ class GalleryController extends AbstractGalleryController
     $this->setGalleryViewRelatedOptions($model);
     $this->handleUploadResult($model);
     // TODO: handle dirPath doesn't exist
-    $this->getImagesAndPaginationData($model, "gallery");
+    $this->setImagesAndPaginationData($model, "gallery");
     $model['usersChosenImages'] = $_SESSION['usersChosenImages'] ?? [];
     if (isset($_SESSION['usersChosenImages'])) {
       system_log("USERS IMAGES:");

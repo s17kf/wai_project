@@ -31,6 +31,11 @@ abstract class Controller
     return [false, ""];
   }
 
+  public function isResponseBuilt(): bool
+  {
+    return false;
+  }
+
   protected function isUserLogged(): bool
   {
     return isset($_SESSION['user']);

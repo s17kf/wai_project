@@ -34,8 +34,8 @@ use \utils\FormEntry;
         new FormEntry("Wybierz plik:", "uploaded_image_id", "uploaded_image", "file",
           ['accept' => 'image/jpeg, image/png']),
         new FormEntry("Znak wodny:", "watermark", "watermark", "text"),
-        new FormEntry("Tytuł:", "title", "title", "text", [], false),
-        new FormEntry("Autor", "author", "author", "text", $authorAttributes, false),
+        new FormEntry("Tytuł:", "title", "title", "text"),
+        new FormEntry("Autor", "author", "author", "text", $authorAttributes),
       ];
       if ($userInfo->isUserLogged()) {
         $uploadImageFormEntriesData[] =

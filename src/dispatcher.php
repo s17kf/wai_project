@@ -5,8 +5,6 @@ use controllers\Controller;
 require_once 'controllers/Controller.php';
 include_once 'system_log.php';
 
-const REDIRECT_PREFIX = 'redirect:';
-
 class Dispatcher
 {
   private $routing;
@@ -25,10 +23,10 @@ class Dispatcher
     syslog(LOG_INFO, "stefan: dispatching: " . $action_url . " ==> " . get_class($controller));
 
     $controller->processRequest($model);
-    $this->build_response($controller, $model);
+    $this->buildResponse($controller, $model);
   }
 
-  private function build_response(Controller &$controller, array &$model)
+  private function buildResponse(Controller &$controller, array &$model)
   {
     $redirectionData = $controller->getRedirection();
     $shouldRedirect = $redirectionData[0];
