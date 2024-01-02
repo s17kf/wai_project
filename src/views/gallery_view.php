@@ -63,7 +63,7 @@ use \utils\FormEntry;
         <form enctype="multipart/form-data" method="post">
           <input type="hidden" name="MAX_FILE_SIZE" value="<?= GALLERY_IMAGE_MAX_SIZE ?>"/>
           <input type="hidden" name="form_id" id="form_id" value="add_image">
-          <input type="hidden" name="page" id="page" value="<?= $currentPage ?>">
+          <input type="hidden" name="page" id="page" value="<?= $currentPage ?? 1 ?>">
           <?php
           (new Dispatcher($routing))->dispatch('/form-table', ['formEntriesData' => $uploadImageFormEntriesData]);
           ?>

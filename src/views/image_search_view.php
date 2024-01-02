@@ -3,7 +3,6 @@
 
 <?php include_once '../constants.php' ?>
 <?php require '../routing.php' ?>
-<?php require_once 'data/new_user_form_data_generator.php' ?>
 
 <head>
   <meta charset="utf-8">

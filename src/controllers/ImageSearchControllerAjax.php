@@ -16,7 +16,8 @@ class ImageSearchControllerAjax extends AbstractGalleryController
     }
     $dbFilter = [
       $searchField => [
-        '$regex' => "^" . $searchPhrase,
+        '$regex' =>  $searchPhrase,
+        '$options' => 'i',
       ],
     ];
     $destParams = sprintf("search=%s", $searchPhrase);

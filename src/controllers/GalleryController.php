@@ -176,6 +176,11 @@ class GalleryController extends AbstractGalleryController
 
   private function storeImageFile($uploadedFile)
   {
+    foreach (IMAGES_DIRS as $imageDir) {
+      if (!is_dir($imageDir)){
+        mkdir($imageDir, 0755, true);
+      }
+    }
     $fileNameStripped = pathinfo($uploadedFile['name'])['filename'];
     $mime_type = FileSystemHelper::getMimeType($uploadedFile['tmp_name']);
     $destFilepath = FileSystemHelper::getNextAvailableName(
