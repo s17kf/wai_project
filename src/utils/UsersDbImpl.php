@@ -20,7 +20,6 @@ class UsersDbImpl implements UsersDb
 
   public function saveUser(string $email, string $login, string $passwordHash): bool
   {
-    // TODO: Implement saveUser() method.
     if ($this->isUserWithLogin($login) || $this->isUserWithEmail($email)) {
       return false;
     }

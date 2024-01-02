@@ -69,7 +69,6 @@ class LoginController extends Controller
         $this->handleLogin($model);
         return;
     }
-    //TODO: should handle some exception?
     $this->redirectUrl = "login";
   }
 
@@ -78,9 +77,7 @@ class LoginController extends Controller
     $usersDb = new UsersDbImpl(new WaiDb());
     $login = $_POST['login'];
     $password = $_POST['password'];
-    system_log(sprintf("handle login user=%s password=%s", $login, $password));
     if (!$usersDb->isUserWithLogin($login)) {
-      system_log("user not found");
       $this->failLogin($login);
       return;
     }
@@ -89,7 +86,6 @@ class LoginController extends Controller
       $_SESSION['user'] = (string) $userData->_id;
       $this->redirectUrl = sprintf("login");
     } else {
-      system_log("password not correct!");
       $this->failLogin($login);
     }
   }
@@ -138,7 +134,6 @@ class LoginController extends Controller
       $loginValidation = $validationCodes[1];
       $passwordValidation = $validationCodes[2];
       $passwordRepeatedValidation = $validationCodes[3];
-      system_log($emailValidation);
       if ($emailValidation != self::OK) {
         $newUserValidationWarnings['email'] = new FormWarning('email-warning', self::EMAIL_WARNINGS[$emailValidation]);
       }

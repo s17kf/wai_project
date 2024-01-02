@@ -52,14 +52,12 @@ class GalleryController extends AbstractGalleryController
         $this->handleMemoryImages($model);
         return;
     }
-    //TODO: should handle some exception?
     $this->redirectUrl = "gallery";
   }
 
   private function handleMemoryImages(array &$model)
   {
     foreach ($_POST['checked_images'] as $checked_image) {
-      system_log("IMAGE: " . $checked_image);
       $_SESSION['usersChosenImages'][] = $checked_image;
       $_SESSION['usersChosenImages'] = array_values(array_unique($_SESSION['usersChosenImages']));
     }
@@ -71,15 +69,10 @@ class GalleryController extends AbstractGalleryController
     $this->redirectUrl = "gallery";
     $params = ['page' => $_POST['page'] ?? 1];
     $imageFieldName = 'uploaded_image';
-    system_log("gallery by POST method ...");
-    if (!empty($_FILES[$imageFieldName])) {
-      system_log("image (array): " . implode(";", $_FILES[$imageFieldName]));
-    }
     $uploadedFile = $_FILES[$imageFieldName];
     $fileTransferStatusCode = $uploadedFile['error'];
     $fileExtension = pathinfo($uploadedFile['name'])['extension'];
     if ($fileTransferStatusCode === UPLOAD_ERR_OK) {
-      system_log("parsing file: " . $uploadedFile['name']);
       if (!$this->isTypeAccepted($params, $uploadedFile)) {
         $this->redirectUrl .= '?' . Controller::serializeParams($params);
         return;
@@ -87,8 +80,6 @@ class GalleryController extends AbstractGalleryController
       try {
         $storedFileName = $this->storeImageFile($uploadedFile);
       } catch (\Exception $e) {
-        // TODO: proper handlin of this exception
-        system_log("Exception during file storing: " . $e->getMessage());
         $params['file_save_error'] = "";
         $this->redirectUrl .= '?' . self::serializeParams($params);
         return;
@@ -101,20 +92,11 @@ class GalleryController extends AbstractGalleryController
 
       $this->saveImageDataInDb($storedFileBaseName);
       $params['file_added'] = $uploadedFile['name'];
-      system_log("succesfully uploaded file " . $uploadedFile['name'] . " watermark=" .
-        $_POST['watermark']);
     } else {
-      system_log("failed to upload file: " . $uploadedFile['name']);
-      foreach ($uploadedFile as $key => $value) {
-        if ($key === 'name')
-          continue;
-        system_log($key . " -> " . $value);
-      }
       if ($fileTransferStatusCode === UPLOAD_ERR_FORM_SIZE) {
         $params['file_too_big'] = 'true';
       } else {
         $params['other_error'] = $uploadedFile['error'];
-        // TODO: handle other_error in get parsing
       }
       if (!in_array($fileExtension, GALLERY_EXPECTED_EXTENSIONS)) {
         $params['ext'] = $fileExtension;
@@ -133,14 +115,8 @@ class GalleryController extends AbstractGalleryController
   {
     $this->setGalleryViewRelatedOptions($model);
     $this->handleUploadResult($model);
-    // TODO: handle dirPath doesn't exist
     $this->setImagesAndPaginationData($model, "gallery");
     $model['usersChosenImages'] = $_SESSION['usersChosenImages'] ?? [];
-    if (isset($_SESSION['usersChosenImages'])) {
-      system_log("USERS IMAGES:");
-      foreach ($_SESSION['usersChosenImages'] as $key => $usersChosenImage)
-        system_log($key . '->' . $usersChosenImage);
-    }
   }
 
   private function setGalleryViewRelatedOptions(&$model)
@@ -185,14 +161,12 @@ class GalleryController extends AbstractGalleryController
     if(isset($_POST['private']) && $_POST['private'] == 'yes'){
       $imageData['private'] = $this->userId;
     }
-    $insertedId = $galleryDb->saveImageData($imageData);
-    system_log("image saved in db with id: " . $insertedId);
+    $galleryDb->saveImageData($imageData);
   }
 
   private function isTypeAccepted(&$params, $uploadedFile): bool
   {
     $mime_type = FileSystemHelper::getMimeType($uploadedFile['tmp_name']);
-    system_log("real file type: " . $mime_type);
     if (!in_array($mime_type, GALLERY_ACCEPTED_FILE_TYPES)) {
       $params['file_type'] = $mime_type;
       return false;

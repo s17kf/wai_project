@@ -34,7 +34,6 @@
 
   <div>
     <table class="bordered">
-      <!-- TODO: style for navigation table -->
       <tr>
         <td>
           <?= $currentDisplayed['begin'] ?> - <?= $currentDisplayed['end'] ?> z <?= $currentDisplayed['total'] ?>

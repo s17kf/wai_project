@@ -3,7 +3,6 @@
 use controllers\Controller;
 
 require_once 'controllers/Controller.php';
-include_once 'system_log.php';
 
 class Dispatcher
 {

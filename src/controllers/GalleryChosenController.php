@@ -37,7 +37,6 @@ class GalleryChosenController extends AbstractGalleryController
   private function processPostRequest(array &$model)
   {
     foreach ($_POST['checked_images'] as $image) {
-      system_log("deleting image: " . $image);
       $imageIndex = array_search($image, $_SESSION['usersChosenImages']);
       unset($_SESSION['usersChosenImages'][$imageIndex]);
       $_SESSION['usersChosenImages'] = array_values($_SESSION['usersChosenImages']);
