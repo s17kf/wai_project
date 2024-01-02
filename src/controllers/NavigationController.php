@@ -13,7 +13,6 @@ class NavigationController extends Controller
       $menuEntries = [
         'main' => 'Strona główna',
         'games' => 'Gry',
-        'survey' => 'Ankieta',
         'gallery' => 'Galeria',
         'gallery-chosen' => "Galeria - wybrane",
         'image-search' => "Szukajka",
