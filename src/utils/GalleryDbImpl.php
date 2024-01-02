@@ -24,10 +24,15 @@ class GalleryDbImpl implements GalleryDb
     return $insertStatus->getInsertedId();
   }
 
-  public function getImagesData($options = [])
+  public function getImagesData($options = [], string $loggedUserId = null, array $userFilter = null)
   {
-
-    return $this->db->gallery->find([], $options)->toArray();
+    $filter = $this->generateAccessFilter($loggedUserId);
+    if (isset($userFilter)) {
+      $filter = [
+        '$and' => [$filter, $userFilter]
+      ];
+    }
+    return $this->db->gallery->find($filter, $options)->toArray();
   }
 
   public function getImage($id)
@@ -35,9 +40,37 @@ class GalleryDbImpl implements GalleryDb
     return $this->db->gallery->findOne(['_id' => new ObjectID($id)]);
   }
 
-  public function getImagesCount()
+  public function getImagesCount(string $loggedUserId = null, array $userFilter = null)
   {
-    return $this->db->gallery->count();
+    $filter = $this->generateAccessFilter($loggedUserId);
+    if (isset($userFilter)) {
+      $filter = [
+        '$and' => [$filter, $userFilter]
+      ];
+    }
+    return $this->db->gallery->count($filter);
+  }
+
+  private function generateAccessFilter(string $loggedUserId = null): array
+  {
+    $publicFilter = [
+      'private' => [
+        '$not' => [
+          '$exists' => '',
+        ],
+      ],
+    ];
+    if (!isset($loggedUserId)) {
+      return $publicFilter;
+    }
+    $privateFilter = [
+      'private' => [
+        '$regex' => "^" . $loggedUserId . '$',
+      ],
+    ];
+    return [
+      '$or' => [$publicFilter, $privateFilter],
+    ];
   }
 
 }

@@ -4,7 +4,6 @@ namespace controllers;
 
 require '../utils/FormWarning.php';
 require '../utils/UsersDbImpl.php';
-require '../utils/WaiDb.php';
 
 use utils\FormWarning;
 use utils\UsersDb;
@@ -87,7 +86,7 @@ class LoginController extends Controller
     }
     $userData = $usersDb->getUserDataByLogin($login);
     if (password_verify($password, $userData->passwordHash)) {
-      $_SESSION['user'] = $userData->_id;
+      $_SESSION['user'] = (string) $userData->_id;
       $this->redirectUrl = sprintf("login");
     } else {
       system_log("password not correct!");

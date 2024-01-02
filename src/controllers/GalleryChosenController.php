@@ -2,16 +2,17 @@
 
 namespace controllers;
 
+require_once 'AbstractGalleryController.php';
 require_once '../constants.php';
 require '../utils/GalleryDbImpl.php';
-require '../utils/WaiDb.php';
 
 use controllers\Controller;
+use MongoDB\BSON\ObjectId;
 use utils\GalleryDb;
 use utils\GalleryDbImpl;
 use utils\WaiDb;
 
-class GalleryChosenController extends Controller
+class GalleryChosenController extends AbstractGalleryController
 {
   private $redirectUrl = "";
 
@@ -47,63 +48,24 @@ class GalleryChosenController extends Controller
 
   private function processGetRequest(array &$model)
   {
-    $this->setViewRelatedOptions($model);
-    $page = $_GET['page'] ?? 1;
-    $this->getImagesAndPaginationData($model, $page);
-  }
-
-  private function getImagesAndPaginationData(array &$model, int $page)
-  {
-    $galleryDb = new GalleryDbImpl(new WaiDb());
+    $this->setGalleryViewRelatedOptions($model);
     if (!isset($_SESSION['usersChosenImages'])) {
       $_SESSION['usersChosenImages'] = [];
     }
     $usersChosenImages = $_SESSION['usersChosenImages'];
-    $imagesCount = count($usersChosenImages);
-    if ($imagesCount === 0) {
-      return;
+    $usersChosenImageIds = [];
+    foreach ($usersChosenImages as $image) {
+      $usersChosenImageIds[] = new ObjectId($image);
     }
-    $paginationData = $this->generatePaginationData($page, $imagesCount);
-    $model['currentPage'] = $page;
-    if ($page > $paginationData['totalPages']) {
-      $page = $paginationData['totalPages'];
-    }
-    $model['paginationData'] = $paginationData;
-    $currentDisplayed = $this->generateCurrentDisplayedData($page, $imagesCount);;
-    $model['currentDisplayed'] = $currentDisplayed;
-    system_log("USERS IMAGES:");
-    foreach ($_SESSION['usersChosenImages'] as $key => $usersChosenImage)
-      system_log($key . '->' . $usersChosenImage);
-
-    $imagesData = [];
-    for ($i = $currentDisplayed['begin'] - 1; $i < $currentDisplayed['end']; ++$i) {
-      $image = $galleryDb->getImage($usersChosenImages[$i]);
-      $imagesData[] = [
-        'id' => $image['_id'],
-        'src' => IMAGES_DIRS['mini'] . '/' . $image['name'],
-        'title' => $image['title'] ?? "",
-        'author' => $image['author'] ?? "",
-      ];
-    }
-    $model['images'] = $imagesData;
-
-  }
-
-  private function generatePaginationData(int $currentPage, int $imagesCount): array
-  {
-    $pages = ceil($imagesCount / IMAGES_PER_PAGE);
-    if ($currentPage > $pages) {
-      $currentPage = $pages;
-    }
-    $navigationLinks = $this->generatePaginationLinks($currentPage, $pages, "gallery-chosen");
-
-    return [
-      'navigationLinks' => $navigationLinks,
-      'totalPages' => $pages,
+    $dbFilter = [
+      '_id' => [
+        '$in' => $usersChosenImageIds,
+      ],
     ];
+    $this->getImagesAndPaginationData($model, "gallery-chosen", $dbFilter);
   }
 
-  private function setViewRelatedOptions(array &$model)
+  private function setGalleryViewRelatedOptions(array &$model)
   {
     $model['active'] = 'gallery-chosen';
     $model['upload_image_form'] = false;

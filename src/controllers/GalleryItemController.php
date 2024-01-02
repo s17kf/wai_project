@@ -4,7 +4,6 @@ namespace controllers;
 
 require_once '../constants.php';
 require '../utils/GalleryDbImpl.php';
-require '../utils/WaiDb.php';
 
 use utils\GalleryDbImpl;
 use utils\WaiDb;

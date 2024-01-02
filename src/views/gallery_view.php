@@ -29,15 +29,22 @@ use \utils\FormEntry;
   <div id="content">
     <?php if (isset($upload_image_form) && $upload_image_form): ?>
       <?php
-      $authorAttributes = $userInfoFetcher->isUserLogged() ? ['value' => $userInfoFetcher->getUserLogin()] : [];
+      $authorAttributes = $userInfo->isUserLogged() ? ['value' => $userInfo->getUserLogin()] : [];
       $uploadImageFormEntriesData = [
         new FormEntry("Wybierz plik:", "uploaded_image_id", "uploaded_image", "file",
           ['accept' => 'image/jpeg, image/png']),
         new FormEntry("Znak wodny:", "watermark", "watermark", "text"),
         new FormEntry("Tytuł:", "title", "title", "text", [], false),
         new FormEntry("Autor", "author", "author", "text", $authorAttributes, false),
-        new FormEntry("", "submit-button", "submit-button", "submit", ['value' => 'Wyślij']),
       ];
+      if ($userInfo->isUserLogged()) {
+        $uploadImageFormEntriesData[] =
+          new FormEntry("Publiczne:", "private-no", "private", "radio", ['value' => 'no'], true, true);
+        $uploadImageFormEntriesData[] =
+          new FormEntry("Prywatne:", "private-yes", "private", "radio", ['value' => 'yes']);
+      }
+      $uploadImageFormEntriesData[] =
+        new FormEntry("", "submit-button", "submit-button", "submit", ['value' => 'Wyślij']);
       ?>
       <?php if (!empty($infos)): ?>
         <div>
@@ -92,6 +99,13 @@ use \utils\FormEntry;
                     </a>
                   </td>
                 </tr>
+                <?php if ($image['private']): ?>
+                  <tr>
+                    <td>
+                      <span class="form-warning">Prywatne!</span>
+                    </td>
+                  </tr>
+                <?php endif ?>
                 <tr>
                   <td>
                     <?= $image['title'] ?>

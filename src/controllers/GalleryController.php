@@ -2,23 +2,23 @@
 
 namespace controllers;
 
+require_once 'AbstractGalleryController.php';
 require_once '../constants.php';
 require '../utils/FileSystemHelper.php';
 require '../utils/GalleryDbImpl.php';
-require '../utils/WaiDb.php';
 require '../utils/GdHelper.php';
 require '../utils/UserInfoFetcher.php';
 require '../utils/UsersDbImpl.php';
 
+use controllers\AbstractGalleryController;
 use utils\FileSystemHelper;
 use utils\GalleryDb;
 use utils\GalleryDbImpl;
 use utils\GdHelper;
 use utils\UserInfoFetcher;
 use utils\UsersDbImpl;
-use utils\WaiDb;
 
-class GalleryController extends Controller
+class GalleryController extends AbstractGalleryController
 {
   private $redirectUrl = "";
 
@@ -30,7 +30,7 @@ class GalleryController extends Controller
 
   public function processRequest(array &$model)
   {
-    $model['userInfoFetcher'] = new UserInfoFetcher(new UsersDbImpl(new WaiDb()));
+    $model['userInfo'] = new UserInfoFetcher(new UsersDbImpl($this->db));
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $this->processPostRequest($model);
       return;
@@ -97,8 +97,8 @@ class GalleryController extends Controller
       $storedFileBaseName = pathinfo($storedFileName)['basename'];
       $watermarkedFilePath = IMAGES_DIRS['watermarked'] . "/" . $storedFileBaseName;
       GdHelper::copyWithWatermark($storedFileName, $watermarkedFilePath, $_POST['watermark']);
-      $thumnailFilePath = IMAGES_DIRS['mini'] . '/' . $storedFileBaseName;
-      GdHelper::copyThumbnail($storedFileName, $thumnailFilePath);
+      $thumbnailFilePath = IMAGES_DIRS['mini'] . '/' . $storedFileBaseName;
+      GdHelper::copyThumbnail($storedFileName, $thumbnailFilePath);
 
       $this->saveImageDataInDb($storedFileBaseName);
       $params['file_added'] = $uploadedFile['name'];
@@ -132,21 +132,10 @@ class GalleryController extends Controller
 
   private function processGetRequest(&$model)
   {
-    $this->setViewRelatedOptions($model);
+    $this->setGalleryViewRelatedOptions($model);
     $this->handleUploadResult($model);
     // TODO: handle dirPath doesn't exist
-    $galleryDb = new GalleryDbImpl(new WaiDb());
-    $page = $_GET['page'] ?? 1;
-    $imagesCount = $galleryDb->getImagesCount();
-    $paginationData = $this->generatePaginationData($page, $imagesCount);
-    $model['currentPage'] = $page;
-    if ($page > $paginationData['totalPages']) {
-      $page = $paginationData['totalPages'];
-    }
-    $model['paginationData'] = $paginationData;
-    $model['currentDisplayed'] = $this->generateCurrentDisplayedData($page, $imagesCount);
-    $model['images'] = $this->getImagesData($galleryDb, $page);
-
+    $this->getImagesAndPaginationData($model, "gallery");
     $model['usersChosenImages'] = $_SESSION['usersChosenImages'] ?? [];
     if (isset($_SESSION['usersChosenImages'])) {
       system_log("USERS IMAGES:");
@@ -155,49 +144,13 @@ class GalleryController extends Controller
     }
   }
 
-  private function setViewRelatedOptions(&$model)
+  private function setGalleryViewRelatedOptions(&$model)
   {
     $model['active'] = 'gallery';
     $model['upload_image_form'] = true;
     $model['image_checkbox'] = "Zapamiętaj";
     $model['memory_form_submit'] = "Zapamiętaj wybrane";
     $model['action'] = $_GET['action'];
-  }
-
-  private function getImagesData(GalleryDb &$galleryDb, int $page): array
-  {
-    $images = $this->getImagesOnPage($galleryDb, $page);
-    $imagesData = [];
-    foreach ($images as $image) {
-      $imagesData[] = [
-        'id' => $image['_id'],
-        'src' => IMAGES_DIRS['mini'] . '/' . $image['name'],
-        'title' => $image['title'] ?? "",
-        'author' => $image['author'] ?? "",
-      ];
-    }
-    return $imagesData;
-  }
-
-  private function getImagesOnPage(GalleryDb &$galleryDb, int $page)
-  {
-    $skip = ($page - 1) * IMAGES_PER_PAGE;
-    $limit = IMAGES_PER_PAGE;
-    return $galleryDb->getImagesData(['skip' => $skip, 'limit' => $limit]);
-  }
-
-  private function generatePaginationData(int $currentPage, int $imagesCount): array
-  {
-    $pages = ceil($imagesCount / IMAGES_PER_PAGE);
-    if ($currentPage > $pages) {
-      $currentPage = $pages;
-    }
-    $navigationLinks = $this->generatePaginationLinks($currentPage, $pages, "gallery");
-
-    return [
-      'navigationLinks' => $navigationLinks,
-      'totalPages' => $pages,
-    ];
   }
 
   private function handleUploadResult(&$model)
@@ -224,12 +177,15 @@ class GalleryController extends Controller
 
   private function saveImageDataInDb($name)
   {
-    $galleryDb = new GalleryDbImpl(new WaiDb());
+    $galleryDb = new GalleryDbImpl($this->db);
     $imageData = [
       'name' => $name,
       'title' => $_POST['title'],
       'author' => $_POST['author'],
     ];
+    if(isset($_POST['private']) && $_POST['private'] == 'yes'){
+      $imageData['private'] = $this->userId;
+    }
     $insertedId = $galleryDb->saveImageData($imageData);
     system_log("image saved in db with id: " . $insertedId);
   }

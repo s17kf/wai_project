@@ -11,7 +11,7 @@ class FormEntry
   private $name;
   private $attributes;
   private $required;
-  private $warning;
+  private $checked;
 
   /**
    * @param string $label
@@ -20,10 +20,10 @@ class FormEntry
    * @param string $type
    * @param array $attributes
    * @param bool $required
-   * @param FormWarning|null $warning
+   * @param bool $checked
    */
   public function __construct(string $label, string $id, string $name, string $type, array $attributes = [],
-                              bool   $required = true, FormWarning $warning = null)
+                              bool   $required = true, bool $checked=false)
   {
     $this->label = $label;
     $this->id = $id;
@@ -31,7 +31,7 @@ class FormEntry
     $this->type = $type;
     $this->attributes = $attributes;
     $this->required = $required;
-    $this->warning = $warning;
+    $this->checked = $checked;
   }
 
   public function getLabelEntry(): string
@@ -51,12 +51,10 @@ class FormEntry
     if ($this->required) {
       $entry .= ' required';
     }
-    $entry .= ">";
-    if ($this->warning != "") {
-      $warning = sprintf('<span class="form-warning" id="%s">%s</span><br>',
-          $this->warning->getId(), $this->warning->getWarning());
-      $entry = $warning . $entry;
+    if ($this->checked) {
+      $entry .= ' checked';
     }
+    $entry .= ">";
     return $entry;
   }
 

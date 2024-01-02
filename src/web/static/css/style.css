@@ -142,7 +142,7 @@ input[type=button] {
   border-color: #a1afc0;
 }
 
-.form-warning {
+.form_error {
   color: red;
   font-size: 15px;
 }
@@ -151,6 +151,10 @@ input[type=button] {
    color: lawngreen;
    font-size: 20px;
  }
+
+.form-warning {
+  color: orange;
+}
 
 .gallery-grid-container {
   display: inline-grid;
