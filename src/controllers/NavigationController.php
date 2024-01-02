@@ -15,6 +15,7 @@ class NavigationController extends Controller
         'games' => 'Gry',
         'survey' => 'Ankieta',
         'gallery' => 'Galeria',
+        'gallery-chosen' => "Galeria - wybrane"
       ];
 
       if($this->isUserLogged()) {

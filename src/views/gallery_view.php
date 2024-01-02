@@ -21,47 +21,29 @@
     <h1>Galeria</h1>
   </header>
   <div id="content">
-    <?php if (!empty($infos)): ?>
+    <?php if (isset($upload_image_form) && $upload_image_form): ?>
+      <?php if (!empty($infos)): ?>
+        <div>
+          <?php foreach ($infos as $info): ?>
+            <p class="form-ok-notification"><?= $info ?></p>
+          <?php endforeach ?>
+        </div>
+      <?php endif ?>
       <div>
-        <?php foreach ($infos as $info): ?>
-          <p class="form-ok-notification"><?= $info ?></p>
-        <?php endforeach ?>
+        <input id="show_image_upload_form_button" type="button" value="Pokaż formularz dodawania zdjęć"
+               onclick="showImageUploadForm()">
+        <input id="hide_image_upload_form_button" type="button" value="Ukryj formularz dodawania zdjęć"
+               onclick="hideImageUploadForm()" style="display: none">
       </div>
-    <?php endif ?>
-    <div>
-      <input id="show_image_upload_form_button" type="button" value="Pokaż formularz dodawania zdjęć"
-             onclick="showImageUploadForm()">
-      <input id="hide_image_upload_form_button" type="button" value="Ukryj formularz dodawania zdjęć"
-             onclick="hideImageUploadForm()" style="display: none">
-    </div>
-    <div id="image_upload_form_container" style="display: none">
-      <form enctype="multipart/form-data" method="post">
-        <input type="hidden" name="MAX_FILE_SIZE" value="<?= GALLERY_IMAGE_MAX_SIZE ?>"/>
-        <input type="hidden" name="form_id" id="form_id" value="add_image">
-        <input type="hidden" name="page" id="page" value="<?= $currentPage ?>">
-        <?php
-        (new Dispatcher($routing))->dispatch('/form-table', ['formEntriesData' => $uploadImageFormEntriesData]);
-        ?>
-      </form>
-    </div>
-    <?php if ($upload_failed): ?>
-      <div id="errorDialog" title="Nie udało się wysłać zdjęcia" style="display: none">
-        <?php if (!empty($errors)): ?>
-          <p>Błędy:</p>
-          <ul>
-            <?php foreach ($errors as $error): ?>
-              <li><?= $error ?></li>
-            <?php endforeach ?>
-          </ul>
-        <?php endif ?>
-        <?php if (!empty($warnings)): ?>
-          <p>Ostrzerzenia:</p>
-          <ul>
-            <?php foreach ($warnings as $warning): ?>
-              <li><?= $warning ?></li>
-            <?php endforeach ?>
-          </ul>
-        <?php endif ?>
+      <div id="image_upload_form_container" style="display: none">
+        <form enctype="multipart/form-data" method="post">
+          <input type="hidden" name="MAX_FILE_SIZE" value="<?= GALLERY_IMAGE_MAX_SIZE ?>"/>
+          <input type="hidden" name="form_id" id="form_id" value="add_image">
+          <input type="hidden" name="page" id="page" value="<?= $currentPage ?>">
+          <?php
+          (new Dispatcher($routing))->dispatch('/form-table', ['formEntriesData' => $uploadImageFormEntriesData]);
+          ?>
+        </form>
       </div>
     <?php endif ?>
 
@@ -74,13 +56,16 @@
               <table>
                 <tr>
                   <td>
-                    <input type="checkbox" name="checked_images[]" value="<?= $image['id'] ?>"
-                           form="<?= $memory_form_id ?>"
-                      <?php
-                      if (in_array($image['id'], $usersChosenImages))
-                        echo 'checked'
-                      ?>
-                    >
+                    <label>
+                      <?= $image_checkbox ?>
+                      <input type="checkbox" name="checked_images[]" value="<?= $image['id'] ?>"
+                             form="<?= $memory_form_id ?>"
+                        <?php
+                        if (isset($usersChosenImages) && in_array($image['id'], $usersChosenImages))
+                          echo 'checked'
+                        ?>
+                      >
+                    </label>
                   </td>
                 </tr>
                 <tr>
@@ -127,7 +112,7 @@
                 <?php endforeach ?>
               <?php endforeach ?>
               <td>
-                <input type="submit" value="Zapamiętaj wybrane" form="<?= $memory_form_id ?>">
+                <input type="submit" value="<?= $memory_form_submit ?>" form="<?= $memory_form_id ?>">
               </td>
             </tr>
           </table>
@@ -140,7 +125,7 @@
     </div>
   </div>
 
-  <?php (new Dispatcher($routing))->dispatch('/nav', ['active' => 'gallery']) ?>
+  <?php (new Dispatcher($routing))->dispatch('/nav', ['active' => $active ?? ""]) ?>
 
 </div>
 <footer id="foot">
@@ -157,7 +142,28 @@
   })
 </script>
 
-<?php if (!empty($errors)): ?>
+<?php if (isset($upload_failed) && $upload_failed): ?>
+  <div id="errorDialog" title="Nie udało się wysłać zdjęcia" style="display: none">
+    <?php if (!empty($errors)): ?>
+      <p>Błędy:</p>
+      <ul>
+        <?php foreach ($errors as $error): ?>
+          <li><?= $error ?></li>
+        <?php endforeach ?>
+      </ul>
+    <?php endif ?>
+    <?php if (!empty($warnings)): ?>
+      <p>Ostrzerzenia:</p>
+      <ul>
+        <?php foreach ($warnings as $warning): ?>
+          <li><?= $warning ?></li>
+        <?php endforeach ?>
+      </ul>
+    <?php endif ?>
+  </div>
+<?php endif ?>
+
+<?php if (isset($upload_failed) && $upload_failed): ?>
   <script>
     $("#errorDialog").show();
     $("#errorDialog").dialog();

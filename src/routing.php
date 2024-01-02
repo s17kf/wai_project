@@ -5,6 +5,7 @@ $routing = [
   '/main' => 'MainController',
   '/games' => 'GamesController',
   '/gallery' => 'GalleryController',
+  '/gallery-chosen' => 'GalleryChosenController',
   '/image' => 'GalleryItemController',
   '/survey' => 'SurveyController',
   '/login' => 'LoginController',

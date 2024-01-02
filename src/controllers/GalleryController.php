@@ -16,8 +16,6 @@ use utils\WaiDb;
 
 class GalleryController extends Controller
 {
-
-
   private $redirectUrl = "";
 
   public function getRedirection(): array
@@ -59,7 +57,7 @@ class GalleryController extends Controller
     foreach ($_POST['checked_images'] as $checked_image) {
       system_log("IMAGE: " . $checked_image);
       $_SESSION['usersChosenImages'][] = $checked_image;
-      $_SESSION['usersChosenImages'] = array_unique($_SESSION['usersChosenImages']);
+      $_SESSION['usersChosenImages'] = array_values(array_unique($_SESSION['usersChosenImages']));
     }
     $this->redirectUrl = sprintf("gallery?page=%s", $_POST['page']);
   }
@@ -129,33 +127,38 @@ class GalleryController extends Controller
 
   private function processGetRequest(&$model)
   {
+    $this->setViewRelatedOptions($model);
     $this->handleUploadResult($model);
     // TODO: handle dirPath doesn't exist
     $galleryDb = new GalleryDbImpl(new WaiDb());
     $page = $_GET['page'] ?? 1;
-    $paginationData = $this->generatePaginationData($galleryDb, $page);
+    $imagesCount = $galleryDb->getImagesCount();
+    $paginationData = $this->generatePaginationData($page, $imagesCount);
     $model['currentPage'] = $page;
     if ($page > $paginationData['totalPages']) {
       $page = $paginationData['totalPages'];
     }
     $model['paginationData'] = $paginationData;
-    $imagesCount = $galleryDb->getImagesCount();
-    $model['currentDisplayed'] = [
-      'begin' => ($page - 1) * IMAGES_PER_PAGE + 1,
-      'end' => min(($page - 1) * IMAGES_PER_PAGE + IMAGES_PER_PAGE, $imagesCount),
-      'total' => $imagesCount,
-    ];
+    $model['currentDisplayed'] = $this->generateCurrentDisplayedData($page, $imagesCount);
     $model['images'] = $this->getImagesData($galleryDb, $page);
 
     $model['usersChosenImages'] = $_SESSION['usersChosenImages'] ?? [];
     if (isset($_SESSION['usersChosenImages'])) {
       system_log("USERS IMAGES:");
-      foreach ($_SESSION['usersChosenImages'] as $usersChosenImage)
-        system_log($usersChosenImage);
+      foreach ($_SESSION['usersChosenImages'] as $key => $usersChosenImage)
+        system_log($key . '->' . $usersChosenImage);
     }
   }
 
-  private function getImagesData(GalleryDb &$galleryDb, int $page)
+  private function setViewRelatedOptions(&$model)
+  {
+    $model['active'] = 'gallery';
+    $model['upload_image_form'] = true;
+    $model['image_checkbox'] = "Zapamiętaj";
+    $model['memory_form_submit'] = "Zapamiętaj wybrane";
+  }
+
+  private function getImagesData(GalleryDb &$galleryDb, int $page): array
   {
     $images = $this->getImagesOnPage($galleryDb, $page);
     $imagesData = [];
@@ -177,47 +180,16 @@ class GalleryController extends Controller
     return $galleryDb->getImagesData(['skip' => $skip, 'limit' => $limit]);
   }
 
-  private function generatePaginationData(GalleryDb &$galleryDb, int $currentPage): array
+  private function generatePaginationData(int $currentPage, int $imagesCount): array
   {
-    $imagesCount = $galleryDb->getImagesCount();
     $pages = ceil($imagesCount / IMAGES_PER_PAGE);
     if ($currentPage > $pages) {
       $currentPage = $pages;
     }
-
-    $navigation_links = [];
-    if ($currentPage > 1) {
-      $navigation_links[] = ['<' => 'gallery?page=' . ($currentPage - 1)];
-      $navigation_links[] = [1 => 'gallery?page=' . 1];
-    } else {
-      $navigation_links[] = ['<' => ""];
-      $navigation_links[] = [1 => ""];
-    }
-    if ($currentPage > 3) {
-      $navigation_links[] = ['...' => ""];
-    }
-    if ($currentPage > 2) {
-      $navigation_links[] = [$currentPage - 1 => 'gallery?page=' . ($currentPage - 1)];
-    }
-    if ($currentPage != 1 and $currentPage != $pages) {
-      $navigation_links[] = [$currentPage => ""];
-    }
-    if ($currentPage < $pages - 1) {
-      $navigation_links[] = [$currentPage + 1 => 'gallery?page=' . ($currentPage + 1)];
-    }
-    if ($currentPage < $pages - 2) {
-      $navigation_links[] = ['...' => ""];
-    }
-    if ($currentPage < $pages) {
-      $navigation_links[] = [$pages => 'gallery?page=' . $pages];
-      $navigation_links[] = ['>' => 'gallery?page=' . ($currentPage + 1)];
-    } else {
-      $navigation_links[] = [$pages => ""];
-      $navigation_links[] = ['>' => ""];
-    }
+    $navigationLinks = $this->generatePaginationLinks($currentPage, $pages, "gallery");
 
     return [
-      'navigationLinks' => $navigation_links,
+      'navigationLinks' => $navigationLinks,
       'totalPages' => $pages,
     ];
   }
